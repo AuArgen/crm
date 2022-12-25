@@ -3,7 +3,7 @@
 <head>
 	
 	<meta charset="utf-8">
-	<title>Анализ</title>
+	<title>Өзгөртүү</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -32,6 +32,28 @@
 		<!-- start: Header -->
 	<?php
 require("./header.php");
+if ($_GET["developers"] != "") {
+	$id = $_GET["developers"];
+	$r = $conn -> query("SELECT * FROM developers WHERE id=$id and id_creater=$idCreater");
+	$fio = "";
+	$phone = "";
+	$image = "";
+	$login = "";
+	$password = "";
+	$status = "";
+	if (mysqli_num_rows($r)) {
+		$row = mysqli_fetch_array($r);
+		do {
+			$fio = $row["fio"];
+			$phone = $row["phone"];
+			$image = $row["image"];
+			$login = $row["login"];
+			$password = $row["pass"];
+			$status = $row["status"];
+			
+		} while ($row = mysqli_fetch_array($r));
+	}
+}
 ?>	
 		<!--
 			<noscript>
@@ -52,7 +74,7 @@ require("./header.php");
 					<a href="./">Главная</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">Новости</a></li>
+				<li><a href="./we.php">Биз</a></li>
 			</ul>
 			<!-- start: Content -->
 			<!-- <div id="content" class="span10"> -->
@@ -60,11 +82,10 @@ require("./header.php");
 			
 
 			<div class="row-fluid sortable">
-				<?php
-				echo'
+			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Новости</h2>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span><?php echo $fio;?></h2>
 						<div class="box-icon">
 							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
@@ -74,68 +95,43 @@ require("./header.php");
 					<div class="box-content">
 						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 						  <fieldset>
-
-							  ';
-				
-								if ($_GET["news"]) {
-									$id = $_GET["news"];
-									$r = $conn -> query("select * from id where id =$id");
-									$n = mysqli_num_rows($r);
-								}else if ($_GET["seminar"]) {
-									$id = $_GET["seminar"];
-									$r = $conn -> query("select * from seminar where id =$id");
-									$n = mysqli_num_rows($r);
-								}else if ($_GET["konferensia"]) {
-									$id = $_GET["konferensia"];
-									$r = $conn -> query("select * from konferensia where id =$id");
-									$n = mysqli_num_rows($r);
-								}else if ($_GET["teacher"]) {
-									$id = $_GET["teacher"];
-									$r = $conn -> query("select * from we where id =$id");
-									$n = mysqli_num_rows($r);
-								}
-							  
-							  if (mysqli_num_rows($r)>0) {
-
-								$row = mysqli_fetch_array($r);
-								if ($_GET["teacher"]) {
-									do {
-										# code...
-									
-									echo'
-									<div class="control-group">
+							<div class="control-group">
 							  <label class="control-label" for="fio">Аты жөнү </label>
 							  <div class="controls">
-								<input type="text" required class="span6 typeahead" name="fio" id="fio"  data-provide="typeahead" data-items="4" value="'.$row["fio"].'">
+								<input type="text" required class="span6 typeahead" name="fio" id="fio"  data-provide="typeahead" value="<?php echo $fio;?>">
 								<p class="help-block">Аты жөнү </p>
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="lesson">Берген сабакгы</label>
+							  <label class="control-label" for="status">Статусу</label>
 							  <div class="controls">
-								<input type="text" required maxLength="" name = "lesson" class="span6 lesson" id="lesson"  data-provide="typeahead" data-items="4" value="'.$row["lesson"].'">
-								<p class="help-block">Берген сабакгы</p>
+								<select name="status" id="">
+									<option <?php if ($status == "graphAndAdmin") echo"selected"?> value="graphAndAdmin">График дизайнер и админ</option>
+									<option <?php if ($status == "graph") echo"selected"?> value="graph">График дизайнер</option>
+									<option <?php if ($status == "cashier") echo"selected"?> value="cashier">Кассир</option>
+								</select>
+								<p class="help-block">Статусу</p>
 							  </div>
 							</div>
                             <div class="control-group">
-							  <label class="control-label" for="instagram">Instagram</label>
+							  <label class="control-label" for="phone">Телефон номер</label>
 							  <div class="controls">
-								<input type="text" required maxLength="" name = "instagram" class="span6 lesson" id="instagram"  data-provide="typeahead" data-items="4" value="'.$row["instagram"].'">
-								<p class="help-block">Instagram</p>
+								<input type="text" required maxLength="100" name = "phone" class="span6 status" id="phone"  data-provide="typeahead" value="<?php echo $phone;?>">
+								<p class="help-block">Телефон номер</p>
 							  </div>
 							</div>
                             <div class="control-group">
-							  <label class="control-label" for="whatsapp">Whatsapp</label>
+							  <label class="control-label" for="login">Логин</label>
 							  <div class="controls">
-								<input type="text" required maxLength="" name = "whatsapp" class="span6 lesson" id="whatsapp"  data-provide="typeahead" data-items="4" value="'.$row["whatsapp"].'">
-								<p class="help-block">Whatsapp</p>
+								<input type="text" required maxLength="100" name = "login" class="span6 status" id="login"  data-provide="typeahead" value="<?php echo $login;?>">
+								<p class="help-block">Логин</p>
 							  </div>
 							</div>
                             <div class="control-group">
-							  <label class="control-label" for="facebook">Facebook</label>
+							  <label class="control-label" for="password">Сыр сөз</label>
 							  <div class="controls">
-								<input type="text" required maxLength="" name = "facebook" class="span6 lesson" id="facebook"  data-provide="typeahead" data-items="4" value="'.$row["facebook"].'">
-								<p class="help-block">Facebook</p>
+								<input type="text" required maxLength="100" name = "password" class="span6 status" id="password"  data-provide="typeahead" value="<?php echo $password;?>">
+								<p class="help-block">Сыр сөз</p>
 							  </div>
 							</div>
 
@@ -145,99 +141,22 @@ require("./header.php");
 							  <label class="control-label" for="fileInput">Сүрөттү</label>
 							  <div class="controls">
 								<input class="" id="" type="file" name="images"  />
-								<img src="./'.$row["image"].'" width=340>
-								<input type="hidden" value="'.$row["image"].'" name="dontUpImg">
-								<input type="hidden" value="'.$row["file"].'" name="dontUpFile">
+								<input type="hidden" name="dontUpImg" value="<?php echo $image;?>">
 							  </div>
-							</div>       
-                            <div class="control-group">
-							  <label class="control-label" for="fileInput">Резюме</label>
-							  <div class="controls">
-								<input class="" id="" type="file" name="uploaded"  />
-								<a href="./'.$row["file"].'" target="_blank"> Резюме</a>
-							  </div>
-							</div>   
+							  <img src="<?php echo $image;?>" alt="" width=300>
+							</div>        
 							
                             <input type="hidden" value="1" name="contentId">
 							<div class="form-actions">
-							  <button type="submit" name = "updateTeacher" class="btn btn-primary">Отправить</button>
-							  <button type="reset" class="btn">Отмена</button>
+							  <button type="submit" name = "saveDeveloperUpdate" class="btn btn-primary">Сактоо</button>
 							</div>
-									
-									';
-								} while ($row=mysqli_fetch_array($r));
-								}
-								else
-								do {
-									echo'
-									<div class="control-group">
-									<label class="control-label" for="typeahead">Заголовок </label>
-									<div class="controls">
-								<input type="text" value="'.$row["theme"].'" required class="span6 typeahead" name="theme__content" id="typeahead"  data-provide="typeahead" data-items="4" value="'.$row["fio"].'"data-source="["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]">
-								<p class="help-block">Заголовок вашего текста!</p>
-							  </div>
-							</div>
-							<div class="control-group">
-							  <label class="control-label" for="typeahead">Коротко текст...</label>
-							  <div class="controls">
-								<input type="text" value="'.$row["small__content"].'" required maxLength="100" name = "small__content" class="span6 typeahead" id="typeahead"  data-provide="typeahead" data-items="4" value="'.$row["fio"].'"data-source="["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]">
-								<p class="help-block">Коротко текст вашего контентта!</p>
-							  </div>
-							</div>
-
-							<div class="control-group">
-							  <label class="control-label" for="date01">Дата</label>
-							  <div class="controls">
-								<input type="text" value="'.$row["date__content"].'" required class="input-xlarge datepicker" name="date" id="date01" placeholder = "31.12.2022">
-							  </div>
-							</div>
-
-							<div class="control-group">
-							  <label class="control-label" for="fileInput">Загрузите избражение для контентта</label>
-							  <div class="controls">
-								<input class="" id="file" type="file" name="images"  />
-								<span id = "fileImg">
-								<img src="./'.$row["image"].'" width= 300>
-								<input type="hidden" value = "'.$row["image"].'" name="dontUpImg">
-								</span>
-							</div>
-
-							</div>          
-							<div class=" hidden-phone">
-							  <div class="">
-								<textarea value="" required class="" id="editor1" name="full__content" placeholder = "Больще информация">
-								'.$row["full__content"].'
-								</textarea>
-							  </div>
-							</div>
-							<div class="form-actions">
-							  <button type="submit" name = "saveUpdate" class="btn btn-primary">Отправить</button>
-							  <button type="reset" class="btn">Отмена</button>
-							</div>';
-						} while ($row = mysqli_fetch_array($r));
-					} 
-
-							echo '
 						  </fieldset>
 						</form>   
 
 					</div>
-				</div>';
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-				?>
-	
-	
-	
+				</div><!--/span-->
 				
+			</div>
 			</div>
 
     

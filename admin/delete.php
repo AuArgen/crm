@@ -1,14 +1,14 @@
 <?php
-require('./php/conn.php');
+require("./ok.php");
 $imgs = array();
 $ca = 0;
-if ($_GET["news"]) {
-     $id = $_GET["news"]; 
-     $r = $conn -> query("select * from id where id=$id;");
+if ($_GET["developers"]) {
+     $id = $_GET["developers"]; 
+     $r = $conn -> query("select * from developers where id=$id and id_creater=$idCreater;");
      $ca = 0;
-} else if ($_GET["seminar"]) {
-    $id = $_GET["seminar"]; 
-    $r = $conn -> query("select * from seminar where id=$id;");
+} else if ($_GET["product"]) {
+    $id = $_GET["product"]; 
+    $r = $conn -> query("select * from product where id=$id and id_creater=$idCreater;");
     $ca = 1;
 }else if ($_GET["konferensia"]) {
     $id = $_GET["konferensia"]; 
@@ -37,12 +37,12 @@ if (mysqli_num_rows($r)) {
  $er = 0;
  do {
     unlink($row["image"]);
-    unlink($row["file"]);
-     
-     
  } while ($row = mysqli_fetch_array($r));
     $contentIdArrayGet = $contentIdArray[$ca];
-    $conn -> query("delete from $contentIdArrayGet where id='$id'");
+    // echo $contentIdArrayGet;
+    // echo $idCreater;
+    // echo $id;
+    $conn -> query("delete from $contentIdArrayGet where id=$id and id_creater=$idCreater");
     header("Location:".$te[($ca)]."");
 }
 

@@ -1,7 +1,18 @@
 <?php
+	require("./php/conn.php");
 	session_start();
-	$la="7a42a8fe1d180f422d7bf84b0717b9c6";
-	$pa="8021e7f39b979cff4b28735ce144b760";
+	$r = $conn->query("SELECT * FROM creater");
+	$la = "";
+	$pa = "";
+	$idCreater = 0;
+	if (mysqli_num_rows($r)) {
+		$row = mysqli_fetch_array($r);
+		do {
+			$la = $row["login"];
+			$pa = $row["pass"];
+			$idCreater = $row["id"];
+		} while ($row = mysqli_fetch_array($r));
+	}
 	if ($_SESSION["login"]==$la && $_SESSION["pass"] == $pa) {
 		header('location:index.php');
 	} 
@@ -12,7 +23,7 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>Bootstrap Metro Dashboard by Dennis Ji for ARM demo</title>
+	<title>Admin Panel</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -98,11 +109,10 @@
 	if (isset($_POST["lg"])) {
 		$l = $_POST["username"];
 		$p = $_POST["password"];
-		$l = md5($l);
-		$p = md5($p);
 		if ($l == $la && $p == $pa) {
 			$_SESSION["login"]=$l;
 			$_SESSION["pass"]=$p;
+			$_SESSION["idCreater"]=$idCreater;
 			header('location:index.php');
 		}
 	}

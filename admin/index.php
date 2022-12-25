@@ -43,13 +43,14 @@ require("./header.php");
 		-->
 			
 			<!-- start: Content -->
+			
 			<div id="content" class="span10">
 			
 			
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.php">Главная</a> 
+					<a href="index.php">Главная </a> 
 					<i class="icon-angle-right"></i>
 				</li>
 
@@ -57,7 +58,40 @@ require("./header.php");
 			<!-- start: Content -->
 			<!-- <div id="content" class="span10"> -->
 			
-			
+			<div class="row-fluid">	
+
+				<a class="quick-button metro yellow span2">
+					<i class="icon-group"></i>
+					<p>Users</p>
+					<span class="badge">237</span>
+				</a>
+				<a class="quick-button metro red span2">
+					<i class="icon-comments-alt"></i>
+					<p>Comments</p>
+					<span class="badge">46</span>
+				</a>
+				<a class="quick-button metro blue span2">
+					<i class="icon-shopping-cart"></i>
+					<p>Orders</p>
+					<span class="badge">13</span>
+				</a>
+				<a class="quick-button metro green span2">
+					<i class="icon-barcode"></i>
+					<p>Products</p>
+				</a>
+				<a class="quick-button metro pink span2">
+					<i class="icon-envelope"></i>
+					<p>Messages</p>
+					<span class="badge">88</span>
+				</a>
+				<a class="quick-button metro black span2">
+					<i class="icon-calendar"></i>
+					<p>Calendar</p>
+				</a>
+				
+				<div class="clearfix"></div>
+								
+			</div><!--/row-->
 
 			<div class="row-fluid sortable">
 				<div class="box span12">
@@ -79,53 +113,8 @@ require("./header.php");
 								<input type="text" placeholder="Издөө" required class="span6 typeahead" name="search" id="search"  data-provide="typeahead" data-items="4" >
 							  </div>
 							</div>
-							<?php
-								if (isset($_POST["searchDate"])) {
-									$w = $_POST["search"];
-									for ($i = 0; $i < sizeof($names); $i++) {
-										$getNames = $names[$i];
-										$getDataName = $dataName[$i];
-										$getLinkName = $linkName[$i];
-										$r = $conn->query("SELECT * FROM $getDataName where adding='' and  theme LIKE '%$w%'");
-										echo'
-										<h1>'.$getNames.'</h1>
-										<table class="table" border="1">
-											<thead>
-											<tr>
-												<th scope="col">№</th>
-												<th scope="col">Тема</th>
-												<th scope="col">Контекст</th>
-												<th scope="col">Просмотр</th>
-												<th scope="col">Картинка</th>
-												<th scope="col">Добавить</th>
-										
-											</tr>
-											</thead>
-											<tbody>';
-											$count = 1;
-										if(mysqli_num_rows($r)) {
-											$row = mysqli_fetch_array($r);
-											do {
-												echo'
-												<tr>
-												<th scope="row">'.$count++.'</th>
-												<td>'.$row["theme"].'</td>
-												<td>'.$row['small__content'].'</td>
-												<td>'.$row["show__content"].'</td>
-												<td><img src="./'.$row["image"].'" style="width:100px"></td>
-												<td style="width: 15px;"><a href="./add.php?'.$getLinkName.'='.$row["id"].'"><button class="btn btn-warning"> Добавить</a></button></td>
-											</tr>
-												';
-											} while ($row = mysqli_fetch_array($r));
-										}
-
-										echo'										</tbody>
-										</table>';
-									}
-								}
-									
-									
-							?>
+					
+								
 						  </fieldset>
 						</form>   
 
@@ -133,62 +122,7 @@ require("./header.php");
 				</div><!--/span-->
 				
 				</div>
-								<h1>
-									<hr>
-									<center>
-										Кошулгандар
-									</center>
-									<hr>
-								</h1>
-				<?php
-					for ($i = 0; $i < sizeof($names); $i++) {
-						$getNames = $names[$i];
-						$getDataName = $dataName[$i];
-						$getLinkName = $linkName[$i];
-						$r = $conn->query("SELECT * FROM $getDataName where adding='1'");
-						echo'
-						<h1>'.$getNames.'</h1>
-						<table class="table" border="1">
-							<thead>
-							<tr>
-								<th scope="col">№</th>
-								<th scope="col">Тема</th>
-								<th scope="col">Контекст</th>
-								<th scope="col">Просмотр</th>
-								<th scope="col">Картинка</th>
-								<th scope="col">Удалить</th>
 						
-							</tr>
-							</thead>
-							<tbody>';
-							$count = 1;
-						if(mysqli_num_rows($r)) {
-							$row = mysqli_fetch_array($r);
-							do {
-								echo'
-								<tr>
-								<th scope="row">'.$count++.'</th>
-								<td>'.$row["theme"].'</td>
-								<td>'.$row['small__content'].'</td>
-								<td>'.$row["show__content"].'</td>
-								<td><img src="./'.$row["image"].'" style="width:100px"></td>
-								<td style="width: 15px;"><a href="./exit.php?'.$getLinkName.'='.$row["id"].'"><button class="btn btn-warning"> Удалить</a></button></td>
-							</tr>
-								';
-							} while ($row = mysqli_fetch_array($r));
-						}
-
-						echo'										</tbody>
-						</table>';
-					}
-				
-				
-				?>
-
-
-    
-
-
 	</div><!--/.fluid-container-->
 	
 			<!-- end: Content -->
@@ -290,3 +224,4 @@ require("./header.php");
 	
 </body>
 </html>
+

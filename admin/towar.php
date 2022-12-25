@@ -3,7 +3,7 @@
 <head>
 	
 	<meta charset="utf-8">
-	<title>Биз</title>
+	<title>Товар</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -52,7 +52,7 @@ require("./header.php");
 					<a href="index.php">Главная</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">Биз</a></li>
+				<li><a href="#">Товар</a></li>
 			</ul>
 			<!-- start: Content -->
 			<!-- <div id="content" class="span10"> -->
@@ -62,7 +62,7 @@ require("./header.php");
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Биз</h2>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Товар</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
@@ -73,57 +73,31 @@ require("./header.php");
 						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 						  <fieldset>
 							<div class="control-group">
-							  <label class="control-label" for="fio">Аты жөнү </label>
+							  <label class="control-label" for="name">Товардын аталышы </label>
 							  <div class="controls">
-								<input type="text" required class="span6 typeahead" name="fio" id="fio"  data-provide="typeahead" >
-								<p class="help-block">Аты жөнү </p>
+								<input type="text" required class="span6 name" name="name" id="name"  data-provide="name" data-items="4">
+								<p class="help-block">Товардын аталышы !</p>
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="status">Статусу</label>
+							  <label class="control-label" for="price">Товардын баасы...</label>
 							  <div class="controls">
-								<select name="status" id="">
-									<option value="graphAndAdmin">График дизайнер и админ</option>
-									<option value="graph">График дизайнер</option>
-									<option value="cashier">Кассир</option>
-								</select>
-								<p class="help-block">Статусу</p>
+								<input type="text" required maxLength="100" name = "price" class="span6 price" id="price"  data-provide="price" data-items="4">
+								<p class="help-block">Товардын баасы!</p>
 							  </div>
 							</div>
-                            <div class="control-group">
-							  <label class="control-label" for="phone">Телефон номер</label>
-							  <div class="controls">
-								<input type="text" required maxLength="100" name = "phone" class="span6 status" id="phone"  data-provide="typeahead" >
-								<p class="help-block">Телефон номер</p>
-							  </div>
-							</div>
-                            <div class="control-group">
-							  <label class="control-label" for="login">Логин</label>
-							  <div class="controls">
-								<input type="text" required maxLength="100" name = "login" class="span6 status" id="login"  data-provide="typeahead" >
-								<p class="help-block">Логин</p>
-							  </div>
-							</div>
-                            <div class="control-group">
-							  <label class="control-label" for="password">Сыр сөз</label>
-							  <div class="controls">
-								<input type="text" required maxLength="100" name = "password" class="span6 status" id="password"  data-provide="typeahead" >
-								<p class="help-block">Сыр сөз</p>
-							  </div>
-							</div>
-
-						
 
 							<div class="control-group">
-							  <label class="control-label" for="fileInput">Сүрөттү</label>
+							  <label class="control-label" for="fileInput">Товардын сүрөттү</label>
 							  <div class="controls">
-								<input class="" id="" type="file" name="images"  />
+								<input class="" id="" type="file" name="images"/>
 							  </div>
-							</div>        
+							</div>         
+                            <input type="hidden" value="0" name="contentId">
+
 							
-                            <input type="hidden" value="1" name="contentId">
 							<div class="form-actions">
-							  <button type="submit" name = "saveDeveloper" class="btn btn-primary">Сактоо</button>
+							  <button type="submit" name = "saveProduct" class="btn btn-primary">Сактоо</button>
 							  <button type="reset" class="btn">Жокко чыгаруу</button>
 							</div>
 						  </fieldset>
@@ -131,15 +105,15 @@ require("./header.php");
 
 					</div>
 				</div><!--/span-->
-				<h1>Биз</h1>
+				<h1>Товар</h1>
 	<table class="table" border="1">
 		<thead>
 		  <tr>
 			<th scope="col">№</th>
-			<th scope="col">ФИО</th>
-			<th scope="col">Статусу</th>
-			<th scope="col">Телефон</th>
-			<th scope="col">Сүрөттү</th>
+			<th scope="col">Аталышы</th>
+			<th scope="col">Баасы</th>
+			<th scope="col">Артикул</th>
+			<th scope="col">Картинка</th>
 			<th scope="col">Өзгөртүү</th>
 			<th scope="col">Өчүрүү</th>
 	
@@ -148,7 +122,7 @@ require("./header.php");
 		<tbody>
 			<?php 
 				require("./php/conn.php");
-				$r = $conn -> query("select * from developers order by id desc ");
+				$r = $conn -> query("select * from product order by id desc ");
 				if (mysqli_num_rows($r)) {
 					$row = mysqli_fetch_array($r);
 					$count=1;
@@ -156,12 +130,12 @@ require("./header.php");
 						echo'
 						<tr>
 							<th scope="row">'.$count++.'</th>
-							<td>'.$row["fio"].'</td>
-							<td>'.($statusArray[$row['status']]).'</td>
-							<td>'.$row["phone"].'</td>
+							<td>'.$row["name"].'</td>
+							<td>'.$row['price'].'</td>
+							<td>'.$row["artikul"].'</td>
 							<td><img src="./'.$row["image"].'" style="width:100px"></td>
-							<td style="width: 15px;"><a href="./update.php?developers='.$row["id"].'"><button class="btn btn-warning"> Өзгөртүү</a></button></td>
-							<td  style="width: 15px;"><a href="./delete.php?developers='.$row["id"].'"><button class="btn btn-danger">Өчүрүү</button></a></td>
+							<td style="width: 15px;"><a href="./updateTowar.php?product='.$row["id"].'"><button class="btn btn-warning"> Өзгөртүү</a></button></td>
+							<td  style="width: 15px;"><a href="./delete.php?product='.$row["id"].'"><button class="btn btn-danger">Өчүрүү</button></a></td>
 					  	</tr>
 						';
 					} while ($row = mysqli_fetch_array($r));

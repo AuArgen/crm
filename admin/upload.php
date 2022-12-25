@@ -181,15 +181,14 @@ if (isset($_POST["saveContact"])) {
 ';
 }
 
-if (isset($_POST["saveTeacher"])) {
+if (isset($_POST["saveDeveloper"])) {
   $fio = $_POST["fio"];
-  $lesson = $_POST["lesson"];
-  $instagram = $_POST["instagram"];
-  $whatsapp = $_POST["whatsapp"];
-  $facebook = $_POST["facebook"];
+  $phone = $_POST["phone"];
+  $status = $_POST["status"];
+  $login = $_POST["login"];
+  $password = $_POST["password"];
   $image = images();
-  $file = files();
-  $r = $conn->query("insert into we(fio,lesson,image,file,instagram,whatsapp,facebook) values('$fio','$lesson','$image','$file','$instagram','$whatsapp','$facebook')");
+  $r = $conn->query("insert into developers(id_creater, fio,	image,	phone,	login,	pass,	start_working,	end_working,	status) values($idCreater,'$fio','$image','$phone','$login','$password','','','$status')");
   echo'
   <script>
   let a = location.href
@@ -205,15 +204,15 @@ if (isset($_POST["saveTeacher"])) {
 ';
 }
 
-if (isset($_POST["updateTeacher"])) {
+
+if (isset($_POST["saveDeveloperUpdate"])) {
   $fio = $_POST["fio"];
-  $lesson = $_POST["lesson"];
-  $instagram = $_POST["instagram"];
-  $whatsapp = $_POST["whatsapp"];
-  $facebook = $_POST["facebook"];
+  $phone = $_POST["phone"];
+  $status = $_POST["status"];
+  $login = $_POST["login"];
+  $password = $_POST["password"];
   $image = images();
-  $file = files();
-  $r = $conn->query("UPDATE we SET fio='$fio',lesson='$lesson', instagram='$instagram', facebook='$facebook', whatsapp='$whatsapp', image='$image', file='$file' WHERE id='$id'");
+  $r = $conn->query("UPDATE developers SET  fio = '$fio',	image = '$image',	phone = '$phone',	login = '$login',	pass = '$password',	status = '$status' WHERE id=$id and id_creater=$idCreater");
   echo'
   <script>
   let a = location.href
@@ -224,6 +223,56 @@ if (isset($_POST["updateTeacher"])) {
   let s = ""
   for (let i = 0; i <= b; i++) s+=a[i];
   s +="we.php"
+  window.location.href = s;
+  </script>
+';
+}
+
+
+
+if (isset($_POST["saveProduct"])) {
+  $name = $_POST["name"];
+  $price = $_POST["price"];
+  $image = images();
+  $r = $conn->query("SELECT * FROM product order by id desc");
+  $artikul = 1001; 
+  if (mysqli_num_rows($r)) {
+    $row = mysqli_fetch_array($r);
+    do {
+      $artikul += $row["id"];
+    } while ($row = mysqli_fetch_array($r));
+  }
+  $r = $conn->query("insert into product(id_creater, name, image, artikul, price, count) values($idCreater,'$name','$image',$artikul,$price,0)");
+  echo'
+  <script>
+  let a = location.href
+  let n = a.length
+  let b 
+  for (let i = n-1; i > 0; i-- ) {
+    if (a[i] == "/"){ b = i; break}}
+  let s = ""
+  for (let i = 0; i <= b; i++) s+=a[i];
+  s +="towar.php"
+  window.location.href = s;
+  </script>
+';
+}
+
+if (isset($_POST["saveProductUpdate"])) {
+  $name = $_POST["name"];
+  $price = $_POST["price"];
+  $image = images();
+  $conn->query("UPDATE product SET name = '$name, image = '$image, price=$price WHERE id = $id and id_creater = $idCreater");
+  echo'
+  <script>
+  let a = location.href
+  let n = a.length
+  let b 
+  for (let i = n-1; i > 0; i-- ) {
+    if (a[i] == "/"){ b = i; break}}
+  let s = ""
+  for (let i = 0; i <= b; i++) s+=a[i];
+  s +="towar.php"
   window.location.href = s;
   </script>
 ';

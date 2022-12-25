@@ -1,9 +1,19 @@
 <?php
 	session_start();
-	$la="7a42a8fe1d180f422d7bf84b0717b9c6";
-	$pa="8021e7f39b979cff4b28735ce144b760";
-	if ($_SESSION["login"]!=$la || $_SESSION["pass"] != $pa) {
-		header('location:./login.php');
-	} 
 	require("./php/conn.php");
+	$r = $conn -> query("SELECT * FROM creater");
+	$la = "";
+	$pa = "";
+	$idCreater = 0;
+	if (mysqli_num_rows($r)) {
+		$row = mysqli_fetch_array($r);
+		do {
+			$la = $row["login"];
+			$pa = $row["pass"];
+			$idCreater = $row["id"];
+		} while ($row = mysqli_fetch_array($r));
+	}
+	if ($_SESSION["login"]!=$la || $_SESSION["pass"] != $pa) {
+		header('Location:./login.php');
+	} 
 ?>

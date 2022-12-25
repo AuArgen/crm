@@ -3,7 +3,7 @@
 <head>
 	
 	<meta charset="utf-8">
-	<title>Анализ</title>
+	<title>Өзгөртүү</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -32,6 +32,21 @@
 		<!-- start: Header -->
 	<?php
 require("./header.php");
+if ($_GET["product"] != "") {
+	$id = $_GET["product"];
+	$r = $conn -> query("SELECT * FROM product WHERE id=$id and id_creater=$idCreater");
+	$name = "";
+	$price = 0;
+	$image = "";
+	if (mysqli_num_rows($r)) {
+		$row = mysqli_fetch_array($r);
+		do {
+            $name = $row["name"];
+            $price = $row["price"];
+            $image = $row["image"];
+		} while ($row = mysqli_fetch_array($r));
+	}
+}
 ?>	
 		<!--
 			<noscript>
@@ -49,10 +64,10 @@ require("./header.php");
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.php">Главная</a> 
+					<a href="./">Главная</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="#">Новости</a></li>
+				<li><a href="./towar.php">Товар</a></li>
 			</ul>
 			<!-- start: Content -->
 			<!-- <div id="content" class="span10"> -->
@@ -62,7 +77,7 @@ require("./header.php");
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Новости</h2>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span><?php echo $name;?></h2>
 						<div class="box-icon">
 							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
@@ -73,92 +88,42 @@ require("./header.php");
 						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 						  <fieldset>
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">Заголовок </label>
+							  <label class="control-label" for="name">Товардын аталышы </label>
 							  <div class="controls">
-								<input type="text" required class="span6 typeahead" name="theme__content" id="typeahead"  data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
-								<p class="help-block">Заголовок вашего текста!</p>
+								<input type="text" required class="span6 name" name="name" id="name"  data-provide="name" data-items="4" value="<?php echo $name?>">
+								<p class="help-block">Товардын аталышы !</p>
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">Коротко текст...</label>
+							  <label class="control-label" for="price">Товардын баасы...</label>
 							  <div class="controls">
-								<input type="text" required maxLength="100" name = "small__content" class="span6 typeahead" id="typeahead"  data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
-								<p class="help-block">Коротко текст вашего контентта!</p>
-							  </div>
-							</div>
-
-							<div class="control-group">
-							  <label class="control-label" for="date01">Дата</label>
-							  <div class="controls">
-								<input type="text" required class="input-xlarge datepicker" name="date" id="date01" placeholder = "31.12.2022">
+								<input type="text" required maxLength="100" name = "price" class="span6 price" id="price"  data-provide="price" data-items="4" value="<?php echo $price?>">
+								<p class="help-block">Товардын баасы!</p>
 							  </div>
 							</div>
 
 							<div class="control-group">
-							  <label class="control-label" for="fileInput">Загрузите избражение для контентта</label>
+							  <label class="control-label" for="fileInput">Товардын сүрөттү</label>
 							  <div class="controls">
-								<input class="" id="" type="file" name="images"  />
+								<input class="" id="" type="file" name="images"/>
+                                <input type="hidden" name="dontUpImg" value="<?php echo $image;?>">
 							  </div>
+							  <img src="<?php echo $image;?>" alt="" width=300>
 							</div>         
                             <input type="hidden" value="0" name="contentId">
 
-							<div class=" hidden-phone">
-							  <div class="">
-								<textarea required class="" id="editor1" name="full__content" placeholder = "Больще информация">
-									<span>Больще информация...</span>
-								</textarea>
-							  </div>
-							</div>
+							
 							<div class="form-actions">
-							  <button type="submit" name = "saveContent" class="btn btn-primary">Отправить</button>
-							  <button type="reset" class="btn">Отмена</button>
+							  <button type="submit" name = "saveProductUpdate" class="btn btn-primary">Сактоо</button>
+							  <button type="reset" class="btn">Жокко чыгаруу</button>
 							</div>
 						  </fieldset>
 						</form>   
 
 					</div>
 				</div><!--/span-->
-				<h1>Новости</h1>
-	<table class="table" border="1">
-		<thead>
-		  <tr>
-			<th scope="col">№</th>
-			<th scope="col">Тема</th>
-			<th scope="col">Контекст</th>
-			<th scope="col">Просмотр</th>
-			<th scope="col">Картинка</th>
-			<th scope="col">Изменить</th>
-			<th scope="col">Удалить</th>
-	
-		  </tr>
-		</thead>
-		<tbody>
-			<?php 
-				require("./php/conn.php");
-				$r = $conn -> query("select * from id order by id desc ");
-				if (mysqli_num_rows($r)) {
-					$row = mysqli_fetch_array($r);
-					$count=1;
-					do {
-						echo'
-						<tr>
-							<th scope="row">'.$count++.'</th>
-							<td>'.$row["theme"].'</td>
-							<td>'.$row['small__content'].'</td>
-							<td>'.$row["show__content"].'</td>
-							<td><img src="./'.$row["image"].'" style="width:100px"></td>
-							<td style="width: 15px;"><a href="./update.php?news='.$row["id"].'"><button class="btn btn-warning"> Изменить</a></button></td>
-							<td  style="width: 15px;"><a href="./delete.php?news='.$row["id"].'"><button class="btn btn-danger">Удалить</button></a></td>
-					  	</tr>
-						';
-					} while ($row = mysqli_fetch_array($r));
-
-				}
-			?>
-		 
-		 
-		</tbody>
-	  </table>
+				
+			</div>
 			</div>
 
     
@@ -195,6 +160,9 @@ require("./header.php");
 
 	</footer>
 	<script>
+		document.querySelector("#file").onchange = ()=> {
+			document.querySelector("#fileImg").innerHTML = ""
+		}
                 
 
 				CKEDITOR.replace( 'editor1', {
