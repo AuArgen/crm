@@ -10,7 +10,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>Админ панел САПАТ</span></a>
+				<a class="brand" href="index.html"><span>Админ панел <?php echo $_SESSION["name_office"];?></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -160,7 +160,7 @@
 								<li class="dropdown-menu-title">
  									<span>Настройки учетной записи</span>
 								</li>
-								<li><a href="#"><i class="halflings-icon user"></i>Профиль</a></li>
+								<li><a href="#"><i class="halflings-icon user"></i><?php echo $_SESSION["fio_creater"];?></a></li>
 								<li><a href="./quit.php"><i class="halflings-icon off"></i>Выйти</a></li>
 							</ul>
 						</li>
@@ -188,7 +188,7 @@
 						<!-- <li><a href="tasks.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Задачи</span></a></li> -->
 						<li><a href="towar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Товар</span></a></li>
 						<li><a href="seminar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Семинар</span></a></li>
-						<li><a href="konferensia.php"><i class="icon-edit"></i><span class="hidden-tablet"> Конференция</span></a></li>
+						<li><a href="admin.php"><i class="icon-edit"></i><span class="hidden-tablet"> Админ</span></a></li>
 						<!-- <li><a href="form second.php"><i class="icon-edit"></i><span class="hidden-tablet"> Формы2</span></a></li> -->
 						<!-- <li><a href="chart.php"><i class="icon-list-alt"></i><span class="hidden-tablet"> Чаты</span></a></li> -->
 						<!-- <li><a href="gallery.php"><i class="icon-picture"></i><span class="hidden-tablet"> Галерея</span></a></li> -->

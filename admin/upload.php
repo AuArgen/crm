@@ -262,7 +262,7 @@ if (isset($_POST["saveProductUpdate"])) {
   $name = $_POST["name"];
   $price = $_POST["price"];
   $image = images();
-  $conn->query("UPDATE product SET name = '$name, image = '$image, price=$price WHERE id = $id and id_creater = $idCreater");
+  $conn->query("UPDATE product SET name = '$name', image = '$image', price=$price WHERE id = $id and id_creater = $idCreater");
   echo'
   <script>
   let a = location.href
@@ -279,10 +279,39 @@ if (isset($_POST["saveProductUpdate"])) {
 }
 
 
+
+if (isset($_POST["saveCreater"])) {
+  if ($login == $_POST["last_login"] && $pass == $_POST["last_password"]) {
+    $login = $_POST["login"];
+    $pass = $_POST["password"];
+    $fio = $_POST["fio"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $image = $_POST["image"];
+    $name_office = $_POST["name_office"];
+    $logo = images();
+    $r = $conn->query("UPDATE creater SET login='$login', pass='$pass', fio='$fio',email='$email',phone='$phone',name_office='$name_office',logo='$logo'  WHERE id = $idCreater");
+    echo'
+    <script>
+    let a = location.href
+    let n = a.length
+    let b 
+    for (let i = n-1; i > 0; i-- ) {
+      if (a[i] == "/"){ b = i; break}}
+    let s = ""
+    for (let i = 0; i <= b; i++) s+=a[i];
+    s +="index.php"
+    window.location.href = s;
+    </script>
+  ';
+  }
+}
+
+
 function images() {
   if ($_FILES["images"]["name"] != '') {
     $imgh = $_POST["dontUpImg"];
-    unlink($imgh);
+    if ($imgh !="") unlink($imgh);
       $test = explode(".",$_FILES["images"]["name"]);
       $e = end($test);
       $name = "IMG-".date("Y-m-d-H-i-s").''.rand(1,10000).'k.'.$e;

@@ -5,12 +5,16 @@
 	$la = "";
 	$pa = "";
 	$idCreater = 0;
+	$name_office = "";
+	$fioCreater;
 	if (mysqli_num_rows($r)) {
 		$row = mysqli_fetch_array($r);
 		do {
 			$la = $row["login"];
 			$pa = $row["pass"];
 			$idCreater = $row["id"];
+			$name_office = $row["name_office"];
+			$fioCreater = $row["fio"];
 		} while ($row = mysqli_fetch_array($r));
 	}
 	if ($_SESSION["login"]==$la && $_SESSION["pass"] == $pa) {
@@ -113,6 +117,8 @@
 			$_SESSION["login"]=$l;
 			$_SESSION["pass"]=$p;
 			$_SESSION["idCreater"]=$idCreater;
+			$_SESSION["name_office"] = $name_office;
+			$_SESSION["fio_creater"] = $fioCreater;
 			header('location:index.php');
 		}
 	}
