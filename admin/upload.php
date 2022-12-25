@@ -288,7 +288,25 @@ if (isset($_POST["saveCreater"])) {
     $email = $_POST["email"];
     $phone = $_POST["phone"];
     $image = $_POST["image"];
+    if ($name_office != $_POST["name_office"]) {
+      $dir = opendir('../'.$name_office);
+      while(false !== ( $file = readdir($dir)) ) {
+          if (( $file != '.' ) && ( $file != '..' )) {
+              $full = '../'.$name_office . '/' . $file;
+              if ( is_dir($full) ) {
+                  rrmdir($full);
+              }
+              else {
+                  unlink($full);
+              }
+          }
+      }
+      closedir($dir);
+      rmdir("../$name_office");
+    }
     $name_office = $_POST["name_office"];
+    mkdir('../'.$name_office.'', 0777, true);
+    copy("../index.php","../$name_office/index.php");
     $logo = images();
     $r = $conn->query("UPDATE creater SET login='$login', pass='$pass', fio='$fio',email='$email',phone='$phone',name_office='$name_office',logo='$logo'  WHERE id = $idCreater");
     echo'
