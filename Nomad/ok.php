@@ -1,15 +1,15 @@
 <?php
 	session_start();
-	require("./php/conn.php");
-    $sessionlogin ="@@@324";
-    $sessionpass = "@@1224";
+	require("../admin/php/conn.php");
+    $sessionLoginDeveloper ="@@@324";
+    $sessionPassDeveloper = "@@1224";
 	if (isset($_SESSION["login"])) {
-		$sessionlogin =$_SESSION["login"];
-		$sessionpass = $_SESSION["pass"];
+		$sessionLoginDeveloper =$_SESSION["login"];
+		$sessionPassDeveloper = $_SESSION["pass"];
 	} else {		
 		header('location:index.php');
 	}
-	$r = $conn -> query("SELECT * FROM creater WHERE login='$sessionlogin' and pass = '$sessionpass'");
+	$r = $conn -> query("SELECT * FROM developers WHERE login='$sessionLoginDeveloper' and pass = '$sessionPassDeveloper'");
 	$la = "";
 	$pa = "";
 	$idCreater = 0;

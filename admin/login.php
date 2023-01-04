@@ -1,25 +1,21 @@
 <?php
 	require("./php/conn.php");
 	session_start();
-	$r = $conn->query("SELECT * FROM creater");
+    $sessionlogin ="2312@@";
+    $sessionpass = "123@@";
+	if (isset($_SESSION["login"]) ) {
+		$sessionlogin =$_SESSION["login"];
+		$sessionpass = $_SESSION["pass"];
+	} 
+	$r = $conn -> query("SELECT * FROM creater WHERE login='$sessionlogin' and pass = '$sessionpass'");
 	$la = "";
 	$pa = "";
 	$idCreater = 0;
 	$name_office = "";
 	$fioCreater;
-	if (mysqli_num_rows($r)) {
-		$row = mysqli_fetch_array($r);
-		do {
-			$la = $row["login"];
-			$pa = $row["pass"];
-			$idCreater = $row["id"];
-			$name_office = $row["name_office"];
-			$fioCreater = $row["fio"];
-		} while ($row = mysqli_fetch_array($r));
-	}
-	if ($_SESSION["login"]==$la && $_SESSION["pass"] == $pa) {
+	if (mysqli_num_rows($r) != 0) {
 		header('location:index.php');
-	} 
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,13 +109,22 @@
 	if (isset($_POST["lg"])) {
 		$l = $_POST["username"];
 		$p = $_POST["password"];
-		if ($l == $la && $p == $pa) {
-			$_SESSION["login"]=$l;
-			$_SESSION["pass"]=$p;
-			$_SESSION["idCreater"]=$idCreater;
-			$_SESSION["name_office"] = $name_office;
-			$_SESSION["fio_creater"] = $fioCreater;
-			header('location:index.php');
+		$r = $conn -> query("SELECT * FROM creater WHERE login='$l' and pass = '$p'");
+		if (mysqli_num_rows($r)) {
+			$row = mysqli_fetch_array($r);
+			do {
+				$la = $row["login"];
+				$pa = $row["pass"];
+				$idCreater = $row["id"];
+				$name_office = $row["name_office"];
+				$fioCreater = $row["fio"];
+				$_SESSION["login"]=$l;
+				$_SESSION["pass"]=$p;
+				$_SESSION["idCreater"]=$idCreater;
+				$_SESSION["name_office"] = $name_office;
+				$_SESSION["fio_creater"] = $fioCreater;
+				header('location:index.php');
+			} while ($row = mysqli_fetch_array($r));
 		}
 	}
 ?>
