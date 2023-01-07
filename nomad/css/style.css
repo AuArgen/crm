@@ -1,0 +1,403 @@
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 1320px;
+
+}
+
+.workStart {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.904);
+    z-index: 9999;
+    transition: 0.5s;
+}
+
+.workStart button {
+    padding: 10px 80px;
+    border-radius: 20px;
+    border:2px solid white;
+    background: none;
+    color:white;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-shadow: 1px 1px 10px 1px rgba(255, 255, 255, 0.308);
+    position: relative;
+    overflow: hidden;
+    transition: 0.8s;
+}
+.workStart button:hover {
+    background: rgb(255, 255, 255);
+    border-radius: 50px;
+    transition: 0.8s;
+    color:black;
+}
+.workStart button::after {
+    content: "";
+    width:50px;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.515);
+    position: absolute;
+    animation: afters 5s ease-in-out infinite;
+    left: 0;
+    top:-100%;
+    transform: rotate(45deg);
+}
+
+.workStartNone {
+    top:-200%;
+    opacity: 0;
+    transition: 1s;
+}
+
+@keyframes afters {
+    0% {
+        left:-150px;
+    }
+    50% {
+        left:400px;
+    }
+    100% {
+        transform: rotate(-45deg);
+        left:-200px;
+    }
+}
+
+header {
+    width: 100vw;
+    min-width: 1320px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background: rgb(33, 164, 240);
+    background: rgb(75,9,121);
+    background: linear-gradient(90deg, rgba(75,9,121,1) 0%, rgb(26, 202, 158) 100%);
+}
+header .office {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:20px;
+}
+header .office .logo {
+    padding: 5px;
+    background: rgba(2, 10, 1, 0.767);
+    border-radius: 50%;
+}
+header .office .logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+}
+header .office .name{
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 900;
+    color: rgb(10, 10, 10);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-direction: column;
+    gap:0px;
+}
+header .office .name .phone {
+    font-size: 13px;
+    color:white;
+}
+
+header .search input {
+    width:300px;
+    padding:5px 10px;
+    border: 2px white solid ;
+    background: none;
+    border-radius: 5px;
+}
+
+header .search input::placeholder {
+    color:white;
+}
+header .search input:focus, header .search input:hover{
+    outline: white;
+    color:white;
+    border-radius: 50px;
+
+}
+
+header .cartCalculator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:10px;
+    color:white;
+    font-size: 16px;
+}
+
+header .cartCalculator i {
+    width:40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2px solid rgb(250, 252, 250);
+    border-radius: 50%;
+    color:white;
+    background: rgba(14, 187, 80, 0.856);
+    cursor: pointer;
+}
+
+header .developer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap:20px;
+    color:white;
+    font-size: 17px;
+    position: relative;
+}
+
+header .developer .user {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+header .developer .user .status {
+    color:rgba(0, 0, 0, 0.878);
+}
+
+header .developer>img{
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+    border:5px solid rgba(248, 250, 248, 0.267);
+}
+
+header .developer ul {
+    display: none;
+    position: absolute;
+    left:0px;
+    top:100%;
+    background: white;
+    color:black;
+    width: 280px;
+    border-radius: 10px;
+    border:5px solid rgba(0, 0, 0, 0.104);
+    overflow: auto;
+    min-height: 150px;
+    padding: 20px 0px;
+}
+
+
+header .developer:hover ul {
+    display: block;
+}
+header .developer ul li {
+    list-style: none;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.548);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+header .developer ul li:hover {
+    background: rgba(0, 0, 0, 0.349);
+}
+
+header .developer ul .img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+header .developer ul .img img {
+    width: 100px;
+    height: 100px;
+    border: 5px solid rgba(0, 0, 0, 0.137);
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: calc(100vh - 70px);
+    min-height: 500px;
+    /* overflow: auto; */
+}
+
+.main .left{
+    width:65%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    align-items: flex-start;
+    height: 100%;
+    overflow: auto;
+    background-size: cover;
+    border-right: 2px solid rgba(0, 0, 0, 0.315);
+    gap:4%;
+    background: rgb(131,58,180);
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    flex-wrap: wrap;
+}
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+.main .left .block {
+    width: 30%;
+    border-radius:10px;
+    border:5px solid rgba(0, 0, 0, 0.151);
+    padding: 10px;
+    min-height: 270px;
+    background: white;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+
+.main .left .block:hover {
+    border:5px solid rgba(0, 0, 0, 0.551);
+    transition: 0.3s;
+}
+
+.main .left .block img {
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.main .left .block p {
+    display: flex;
+    justify-content: space-between;
+    color:20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.658);
+    font-size: 14px;
+}
+
+
+
+.main .right {
+    width:35%;
+    display: flex;
+    justify-content: flex-start;
+    /* padding: 20px; */
+    align-items: flex-start;
+    height: 100%;
+    overflow: auto;
+    background-size: cover;
+    border-right: 2px solid rgba(0, 0, 0, 0.315);
+    gap:1%;
+    flex-direction: column;
+    background: url(../img/fast-shopping-cart-icon-logo-white-background-vector-illustration-sign-symbol-design-isolated-183464326.jpg);
+    background-size: cover;
+    background-position: center;
+    flex-wrap: wrap;
+}
+
+.main .right .trash {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: white;
+}
+.main .right .trash .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.main .right .trash .header>div {
+    width:50%;
+    font-size: 13px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+.main .right .trash .header div input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid gray;
+}
+
+.main .right .trash .header .submit {
+    width: 100%;
+    padding: 5px;
+    background: rgb(11, 252, 11);
+    border:1px solid white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.main .right .trash .trashShow .trashShowBlock {
+    width:100%;
+    position: relative;
+}
+.main .right .trash .trashShow .trashShowBlock table {
+    position: absolute;
+    /* left:-50%; */
+    width:100%;
+    transform: scale(1);
+    font-size: 12px;
+    border-collapse: collapse;
+}
+.main .right .trash .trashShow .trashShowBlock table tr:hover, .main .right .trash .trashShow .trashShowBlock table tr:hover input {
+    background: rgba(0,0,0,0.1);
+}
+.main .right .trash .trashShow .trashShowBlock table th {
+    background: rgba(0,0,0,0.2);
+    text-align: center;
+}
+.main .right .trash .trashShow .trashShowBlock table td {
+    text-align: center;
+    font-weight: 900;
+    font-family: 'Times New Roman', Times, serif;
+}
+.main .right .trash .trashShow .trashShowBlock table tr .input {
+    max-width:60px;
+    /* width:100%; */
+}
+.main .right .trash .trashShow .trashShowBlock table td input {
+    /* max-width:70px; */
+    width:100%;
+    border:none;
+}
+
+.main .right .trash .trashShow .trashShowBlock table tr .button {
+    width:40px;
+    position: relative;
+    /* width:100%; */
+}
+.main .right .trash .trashShow .trashShowBlock table tr button {
+    /* max-width:70px; */
+    position: absolute;
+    left: 0px;
+    top:0px;
+    width:100%;
+    background: rgb(252, 15, 15);
+    color:white;
+    border:none;
+    height: 100%;
+}
+.main .right .trash .trashShow .trashShowBlock table td, th {
+    border:1px solid black;
+}

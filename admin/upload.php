@@ -305,6 +305,12 @@ if (isset($_POST["saveCreater"])) {
       rmdir("../$name_office");
     }
     $name_office = $_POST["name_office"];
+    $name_office = mb_convert_case($name_office, MB_CASE_LOWER, "UTF-8");
+    $e = "";
+    for ($i = 0; $i < strln($name_office) ; $i++) {
+      if ($name_office[$i] != " ") $e += $name_office[$i];
+    }
+    $name_office = $e;
     mkdir('../'.$name_office.'', 0777, true);
     copy("../index.php","../$name_office/index.php");
     $logo = images();

@@ -3,9 +3,9 @@
 	session_start();
     $sessionLoginDeveloper ="2312@@";
     $sessionPassDeveloper = "123@@";
-	if (isset($_SESSION["login"]) ) {
-		$sessionLoginDeveloper =$_SESSION["login"];
-		$sessionPassDeveloper = $_SESSION["pass"];
+	if (isset($_SESSION["loginDevoloper"]) ) {
+		$sessionLoginDeveloper =$_SESSION["loginDevoloper"];
+		$sessionPassDeveloper = $_SESSION["passDevoloper"];
 	} 
 	$r = $conn -> query("SELECT * FROM developers WHERE login='$sessionLoginDeveloper' and pass = '$sessionPassDeveloper'");
 	$la = "";
@@ -22,7 +22,7 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>Admin Panel</title>
+	<title>Катталып кирүү</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -116,8 +116,8 @@
 				$pa = $row["pass"];
 				$idCreaterDeveloper = $row["id"];
 				$fioCreaterDeveloper = $row["fio"];
-				$_SESSION["login"]=$l;
-				$_SESSION["pass"]=$p;
+				$_SESSION["loginDevoloper"]=$l;
+				$_SESSION["passDevoloper"]=$p;
 				$_SESSION["idCreaterDeveloper"]=$idCreaterDeveloper;
 				$_SESSION["fio_creater_developer"] = $fioCreaterDeveloper;
 				header('location:index.php');
@@ -131,8 +131,7 @@
 	    <div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-content">
 				<ul class="list-inline item-details">
-					<li><a href="../admin/http://themifycloud.com">Admin templates</a></li>
-					<li><a href="../admin/http://themescloud.org">Bootstrap themes</a></li>
+					<li><a href="../admin/http://themifycloud.com">Катталып кирүү</a></li>
 				</ul>
 			</div>
 		</div>
