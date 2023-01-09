@@ -48,4 +48,6 @@
 			$phone = $row["phone"];
 		} while ($row = mysqli_fetch_array($r));
 	}
+	$r = $conn -> query("SELECT * FROM orders WHERE id_developers=$idDevoloper and accepted='0'");
+	$kolOrders = mysqli_num_rows($r);
 ?>

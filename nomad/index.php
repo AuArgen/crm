@@ -32,7 +32,9 @@
           <input type="search" name="" id="search" placeholder= "Товардын аты, артикулдан издөө">
       </div>
       <div class="cartCalculator">
-        <i class="fa fa-cart-shopping"></i>
+        <i class="fa fa-cart-shopping" onclick="cart()">
+          <?php if ($kolOrders>0) echo '<span>'.$kolOrders.'</span>';?><!-- <span>100</span> -->
+        </i>
         <i class="fa fa-calculator"></i>
       </div>
       <div class="developer">
@@ -78,13 +80,13 @@
       <!-- end left main -->
       <!-- right start main-->
       <div class="right">
-          <div class="trash">
+          <div class="trash ">
             <div class="header">
               <div class="kol">Саны: <span class="kolSpan">0</span> </div>
               <div class="price">Акчасы: <span class="priceSpan">0</span>сом</div>
               <div class="client"> <input type="text" class="nameClient" placeholder="Кардардын аты"></div>
-              <div class="client"> <input type="phone" class="phoneClient" placeholder="Телефон номери"></div>
-              <div class="submit"> Кардарды кошуу </div>
+              <div class="client"> <input type="tel" class="phoneClient" placeholder="Телефон номери"></div>
+              <div class="submit" onclick="addClient('0')"> Кардарды кошуу </div>
             </div>
             <div class="trashShow">
                 <div class="trashShowBlock">
@@ -93,12 +95,59 @@
                 </div>
             </div>
           </div>
+          <div class="cart">
+            <?php
+            	$r = $conn -> query("SELECT * FROM orders WHERE id_developers=$idDevoloper and accepted='0'");
+              // $kolOrders = mysqli_num_rows($r);
+              if (mysqli_num_rows($r)) {
+                echo '<table>
+                <tr>
+                  <th>№</th>
+                  <th>Аты</th>
+                  <th>Саны</th>
+                  <th>Убактысы</th>
+                  <th>Акчасы</th>
+                  <th> <i class="fa fa-trash"></i> </th>
+                  <th> <i class="fa fa-check"></i> </th>
+                </tr>';
+                $row = mysqli_fetch_array($r);
+                $count = 1;
+                do {
+                  echo '
+                  <tr>
+                    <td>'.$count++.'</td>
+                    <td>'.$row["client_order"].'</td>
+                    <td class="input">
+                      '.$row["count_order"].'
+                    </td>
+                    <td>'.$row["date_order"].'</td>
+                    <td>'.$row["price_order"].'</td>
+                    <td class="button">
+                        <button onclick="deleteC('.$row["id"].')"> <i class="fa fa-trash"></i> </button>
+                    </td>
+                    <td class="button">
+                        <button onclick="addC('.$row["id"].')" class="btncheck"> <i class="fa fa-check"></i> </button>
+                        <textarea value="'.$row["id"].'!'.$row["name_order"].'!'.$row["count_order"].'!'.$row["price_order"].'!'.$row["client_phone_order"].'!'.$row["client_order"].'!" class="textarea">
+                        </textarea>
+                    </td>
+                  </tr>
+                  
+                  ';
+                } while ($row = mysqli_fetch_array($r));
+                echo "</table>";
+              }
+            ?>
+          </div>
       </div>
       <!-- end right main -->
     </div>
     <script src="../admin/js/jquery-1.9.1.min.js"></script>
     <script>
       function update() {
+        let getDate = "<?php echo substr(date("Y-m-d H:i:s"),8,2)?>";
+        let jsDate = new Date().getDate();
+        // console.log(+getDate, +jsDate)
+        if (+getDate != +jsDate) window.location.reload()
         let timer = setTimeout(() => {
           work()
         }, 3000);
@@ -192,6 +241,24 @@
         trash = (n > 1?d:[]);
         show()
       }
+      function deleteC(dx) {
+        document.querySelector(".cart").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40">`
+        $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{dx},
+                  dataType:'html',
+                  success: function (data) {
+              // alert(data)
+                    // if (data == "ok") {
+                      window.location.reload("./");
+                    // }
+                    // document.querySelector(".workStart").classList.toggle("workStartNone");
+                  }
+              });
+
+      }
       function show() {
         let s = `
         <table>
@@ -235,6 +302,78 @@
         document.querySelector(".kolSpan").innerHTML = kolElement;
         document.querySelector(".priceSpan").innerHTML = summaElement;
       }
+      function cartShow() {
+        let y = "showCart";
+        $.ajax({
+                url:'./upload.php',
+                type:'POST',
+                cache:false,
+                data:{y},
+                dataType:'html',
+                success: function (data) {
+                  // if (data.substr(0,4) != "<dz") window.location.reload("./") 
+                  document.querySelector(".cart").innerHTML=data;
+                  // update()
+                }
+            });
+      }
+      // 
+      // 
+      // Add Client function
+      // 
+      // 
+      function addClient(x) {
+        let getNameClient = document.querySelector(".nameClient").value;
+        let getPhoneClient = document.querySelector(".phoneClient").value;
+        if (getNameClient==""){
+          getNameClient = "Жаңы кардар";
+        }
+        document.querySelector(".trashShowBlock").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40">`
+        if (trash.length > 0) {
+          let trashx =  trash.join("@")+"@"
+          $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{x, trashx, getNameClient, getPhoneClient, kolElement, summaElement},
+                  dataType:'html',
+                  success: function (data) {
+              // alert(data)
+                    if (data == "loading") window.location.reload("./")
+                    else{
+                      // alert("Кошулду")
+                      document.querySelector(".nameClient").value = "";
+                      document.querySelector(".phoneClient").value = "";
+                      document.querySelector(".fa-cart-shopping").innerHTML = `<span>${data}</span>`;
+                      trash = []
+                      show();
+                      cartShow();
+                    }
+                    // document.querySelector(".workStart").classList.toggle("workStartNone");
+                  }
+              });
+            }
+      }
+      function cart() {
+        if (!document.querySelector(".trashNone") || document.querySelector(".cartActive")) document.querySelector(".trash").classList.toggle("trashNone");
+        document.querySelector(".cart").classList.toggle("cartActive");
+      }
+      function addC(addC) {
+          $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{addC},
+                  dataType:'html',
+                  success: function (data) {
+              // alert(data)
+                    if (data == "ok") {
+                      window.location.reload("./");
+                    }
+                    // document.querySelector(".workStart").classList.toggle("workStartNone");
+                  }
+              });
+            }
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

@@ -139,7 +139,7 @@ header .cartCalculator {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap:10px;
+    gap:20px;
     color:white;
     font-size: 16px;
 }
@@ -155,8 +155,25 @@ header .cartCalculator i {
     color:white;
     background: rgba(14, 187, 80, 0.856);
     cursor: pointer;
+    position: relative;
+    /* z-index: 99; */
 }
 
+header .cartCalculator i span {
+    position: absolute;
+    top: -10px;
+    left:80%;
+    background: red;
+    color:white;
+    border-radius: 50%;
+    padding: 5px;
+    min-width: 20px;
+    font-size: 12px;
+    z-index: 100;
+    text-align: center;
+    font-weight: 900;
+    font-family: 'Times New Roman', Times, serif;
+}
 header .developer {
     display: flex;
     justify-content: space-around;
@@ -198,6 +215,7 @@ header .developer ul {
     overflow: auto;
     min-height: 150px;
     padding: 20px 0px;
+    z-index: 888;
 }
 
 
@@ -312,11 +330,18 @@ header .developer ul .img img {
     flex-wrap: wrap;
 }
 
-.main .right .trash {
+.main .right .trash, .main .right .cart {
     width: 100%;
     height: 100%;
     overflow: auto;
     background: white;
+    position: relative;
+}
+.main .right .trashNone, .main .right .cart{
+    display: none;
+} 
+.main .right .cartActive {
+    display: block;
 }
 .main .right .trash .header {
     display: flex;
@@ -352,7 +377,7 @@ header .developer ul .img img {
     width:100%;
     position: relative;
 }
-.main .right .trash .trashShow .trashShowBlock table {
+.main .right .trash .trashShow .trashShowBlock table , .main .right .cart table{
     position: absolute;
     /* left:-50%; */
     width:100%;
@@ -360,34 +385,34 @@ header .developer ul .img img {
     font-size: 12px;
     border-collapse: collapse;
 }
-.main .right .trash .trashShow .trashShowBlock table tr:hover, .main .right .trash .trashShow .trashShowBlock table tr:hover input {
+.main .right .trash .trashShow .trashShowBlock table tr:hover, .main .right .trash .trashShow .trashShowBlock table tr:hover input , .main .right .cart table tr:hover, .main .right .cart table tr:hover input{
     background: rgba(0,0,0,0.1);
 }
-.main .right .trash .trashShow .trashShowBlock table th {
+.main .right .trash .trashShow .trashShowBlock table th ,  .main .right .cart table th{
     background: rgba(0,0,0,0.2);
     text-align: center;
 }
-.main .right .trash .trashShow .trashShowBlock table td {
+.main .right .trash .trashShow .trashShowBlock table td, .main .right .cart table tr td {
     text-align: center;
     font-weight: 900;
     font-family: 'Times New Roman', Times, serif;
 }
-.main .right .trash .trashShow .trashShowBlock table tr .input {
+.main .right .trash .trashShow .trashShowBlock table tr .input, .main .right .cart table tr .input {
     max-width:60px;
     /* width:100%; */
 }
-.main .right .trash .trashShow .trashShowBlock table td input {
+.main .right .trash .trashShow .trashShowBlock table td input, .main .right .cart table td input {
     /* max-width:70px; */
     width:100%;
     border:none;
 }
 
-.main .right .trash .trashShow .trashShowBlock table tr .button {
+.main .right .trash .trashShow .trashShowBlock table tr .button,  .main .right .cart table tr .button {
     width:40px;
     position: relative;
     /* width:100%; */
 }
-.main .right .trash .trashShow .trashShowBlock table tr button {
+.main .right .trash .trashShow .trashShowBlock table tr button, .main .right .cart table tr button {
     /* max-width:70px; */
     position: absolute;
     left: 0px;
@@ -398,6 +423,16 @@ header .developer ul .img img {
     border:none;
     height: 100%;
 }
-.main .right .trash .trashShow .trashShowBlock table td, th {
+
+.main .right .cart table tr>td>.btncheck {
+    background: rgb(44, 218, 9);
+    text-align: center;
+    font-weight: bold;
+}
+.main .right .trash .trashShow .trashShowBlock table td, th,  .main .right .cart table td {
     border:1px solid black;
+}
+
+.main .right .cart table tr textarea {
+    display: none;
 }
