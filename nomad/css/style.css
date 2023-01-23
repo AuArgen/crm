@@ -270,7 +270,8 @@ header .developer ul .img img {
     border-right: 2px solid rgba(0, 0, 0, 0.315);
     gap:4%;
     background: rgb(131,58,180);
-    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    /* background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); */
+    background: rgba(0, 0, 0, 0.104);
     flex-wrap: wrap;
 }
 ::-webkit-scrollbar {
@@ -435,4 +436,110 @@ header .developer ul .img img {
 
 .main .right .cart table tr textarea {
     display: none;
+}
+.addReport {
+    top:0;
+    left:0;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.678);
+    transition: 0.5s;
+    z-index: 999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.addReportActive {
+    display: flex;
+}
+.addReport .block {
+    width:70%;
+    height: 98%;
+    /* padding: 10px; */
+    border-radius: 10px;
+    background: white;
+    overflow: auto;
+}
+.addReport .block>div {
+    width:100%;
+    position: sticky;
+    top:0;
+    background: white;
+}
+
+.addReport .block .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+    margin-bottom: 2px;
+}
+
+.addReport .block .header .closed {
+    font-size: 25px;
+    font-weight: 800;
+    cursor: pointer;
+    /* padding:5px; */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.addReport .block .header .closed:hover {
+    background: rgba(128, 128, 128, 0.411);
+}
+
+.addReport .block .report {
+    width:100%;
+}
+.addReport .block .report button {
+    width: 100%;
+    padding: 2px;
+    background: rgb(7, 155, 224);
+    color:white;
+    border:none;
+}
+
+.addReport .block .user {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addReport .block .user input {
+    border-radius: 2px;
+    border: 1px solid gray;
+}
+
+.addReport .block table {
+    /* margin: 10px; */
+    width: 100%;
+    border-collapse: collapse;
+}
+.addReport .block table th {
+    background: rgb(3, 248, 3);
+    color:white;
+    text-align: center;
+    border:1px solid gray;
+}
+.addReport .block table td {
+    border:1px solid gray;
+}
+
+.addReport .block table tr:hover {
+    background: rgb(218, 216, 216);
+}
+.addReport .block table td input {
+    border:none;
+    min-width: 100px;
+    width:100%;
+}
+.addReport .block table tr:hover input {
+    background: rgb(218, 216, 216);
 }

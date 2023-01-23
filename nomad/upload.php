@@ -3,14 +3,27 @@
     $y = ""; 
     $x = "";
     $trash = "";
+    if (isset($_POST["idReport"])) {
+      $idReport = $_POST["idReport"];
+      $r = $conn->query("SELECT * FROM orders WHERE id='$idReport'");
+      // echo $idReport;
+      if (mysqli_num_rows($r)) {
+        $row = mysqli_fetch_array($r);
+        do {
+          echo ''.$row["name_order"].''.$row["client_order"].','.$row["client_phone_order"].','.$idReport;
+        } while ($row = mysqli_fetch_array($r));
+      }
+    }
     if (isset($_POST["dx"])) {
         $dx = $_POST["dx"];
         $r = $conn->query("DELETE FROM orders WHERE id = $dx");
     }
-    if (isset($_POST["addC"])) {
-        $addC = $_POST["addC"];
-        if ($conn -> query("UPDATE orders SET accepted = '1' WHERE id = '$addC' and id_developers = $idDevoloper")) {
-            echo "ok";
+    if (isset($_POST["idReportSave"])) {
+        $idReportSave = $_POST["idReportSave"];
+        $addReportTrash = $_POST["addReportTrash"];
+        if ($conn -> query("UPDATE orders SET accepted = '1', name_order = '$addReportTrash' WHERE id = '$idReportSave' and id_developers = $idDevoloper")) {
+          $r = $conn -> query("SELECT * FROM orders WHERE id_developers = $idDevoloper and accepted='0'");
+          echo mysqli_num_rows($r);
         }
     }
     if (isset($_POST["y"])) $y = $_POST["y"];
@@ -56,7 +69,7 @@
                       <p class="name"><span>Аты: </span> <span>'.$row["name"].'</span></p>
                       <p class="price"><span>Баасы: </span><span>'.$row["price"].' сом</span></p>
                       <p class="artikul"><span>Артикулу:</span> <span>'.$row["artikul"].'</span> </p>
-                      <p><span>Даанасы:</span><span>'.$row["count"].'</span></p>
+                      <p class=""><span>Даанасы:</span> <span>'.$row["count"].'</span> </p>
                     </div>';
             } while ($row = mysqli_fetch_array($r));
           }
@@ -91,8 +104,7 @@
                         <button onclick="deleteC('.$row["id"].')"> <i class="fa fa-trash"></i> </button>
                     </td>
                     <td class="button">
-                        <button onclick="addC('.$row["id"].')" class="btncheck"> <i class="fa fa-check"></i> </button>
-                        <textarea value="'.$row["id"].'!'.$row["name_order"].'!'.$row["count_order"].'!'.$row["price_order"].'!'.$row["client_phone_order"].'!'.$row["client_order"].'!" class="textarea">
+                        <button onclick="addReport('.$row["id"].')" class="btncheck"> <i class="fa fa-check"></i> </button>
                         </textarea>
                     </td>
                   </tr>

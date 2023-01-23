@@ -5,12 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $nameOffice;?> оффис</title>
-    <link rel="shortcut icon" type="image/png" href="../admin/<?php echo $logo;?>">
+    <link rel="shortcut icon" class="rels" type="image/png" href="../admin/<?php echo $logo;?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/8ec5b2c66c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
+
+  <div class="addReport"></div>
 
   <!-- start Work main -->
     <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && substr(date("Y-m-d H:i:s"),0,10) != substr($workEnd,0,10) ) echo"workStartNone"; ?>">
@@ -69,7 +71,7 @@
                       <p class="name"><span>Аты: </span> <span>'.$row["name"].'</span></p>
                       <p class="price"><span>Баасы: </span><span>'.$row["price"].' сом</span></p>
                       <p class="artikul"><span>Артикулу:</span> <span>'.$row["artikul"].'</span> </p>
-                      <p><span>Даанасы:</span><span>'.$row["count"].'</span></p>
+                      <p class=""><span>Даанасы:</span> <span>'.$row["count"].'</span> </p>
                     </div>';
             } while ($row = mysqli_fetch_array($r));
           }
@@ -126,8 +128,7 @@
                         <button onclick="deleteC('.$row["id"].')"> <i class="fa fa-trash"></i> </button>
                     </td>
                     <td class="button">
-                        <button onclick="addC('.$row["id"].')" class="btncheck"> <i class="fa fa-check"></i> </button>
-                        <textarea value="'.$row["id"].'!'.$row["name_order"].'!'.$row["count_order"].'!'.$row["price_order"].'!'.$row["client_phone_order"].'!'.$row["client_order"].'!" class="textarea">
+                        <button onclick="addReport('.$row["id"].')" class="btncheck"> <i class="fa fa-check"></i> </button>
                         </textarea>
                     </td>
                   </tr>
@@ -205,12 +206,12 @@
           }
         }
         count = addKol(artikul);
-        summa = (+price) * (+count[0]);
-        let trashX = [artikul, count[0], name,price,summa];
+        // summa = (+price) * (+count[0]);
+        let trashX = [artikul, count[0], name,price,0];
         if (+count[0] == 1) trash.push(trashX)
         else {
           trash[+count[1]][1] = count[0];
-          trash[+count[1]][4] = summa;
+          // trash[+count[1]][4] = 0;
         }
         show()
       }
@@ -285,7 +286,7 @@
                         <input type="number" onchange="updateKol(${i})" id="id${i}" value = ${trash[i][1]} min=1>
                       </td>
                       <td>${trash[i][3]}</td>
-                      <td>${trash[i][4]}</td>
+                      <td>${+trash[i][3]* +trash[i][2]}</td>
                       <td class="button">
                           <button onclick="deleteP(${i})"> <i class="fa fa-trash"></i> </button>
                       </td>
@@ -358,23 +359,127 @@
         if (!document.querySelector(".trashNone") || document.querySelector(".cartActive")) document.querySelector(".trash").classList.toggle("trashNone");
         document.querySelector(".cart").classList.toggle("cartActive");
       }
-      function addC(addC) {
+      function addReportOC(){
+        document.querySelector(".addReport").classList.toggle("addReportActive");
+      }
+      let userData = [];
+      function addReport(idReport) {
+        addReportOC();
+        document.querySelector(".addReport").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
           $.ajax({
                   url:'./upload.php',
                   type:'POST',
                   cache:false,
-                  data:{addC},
+                  data:{idReport},
                   dataType:'html',
                   success: function (data) {
-              // alert(data)
-                    if (data == "ok") {
-                      window.location.reload("./");
-                    }
+                    userData=[]
+                    let sd = data.split("@");
+                    for (let i = 0; i < sd.length; i++) userData.push(sd[i].split(','))
+                    addReportShow();
                     // document.querySelector(".workStart").classList.toggle("workStartNone");
                   }
               });
+          }
+          function addReportShow() {
+            // console.log(userData);
+            let userDataN  = userData.length-1;
+            let userDataKol = 0;
+            let userDataSumma = 0;
+            let ans = ``;
+            for (let i = 0; i < userDataN; i++) {
+              let userDataKolX = +userData[i][1];
+              userDataKol += userDataKolX;
+              let userDataSummaX = (+userData[i][3]) * (+userData[i][1])
+              userDataSumma += userDataSummaX;
+              ans += `
+              <tr>
+                  <td>${i+1}</td>
+                  <td class="nameTable_${i}" >
+                  ${userData[i][2]}
+                    <input type="hidden" name="" class="idTable_${i}" value="1">
+                  </td>
+                  <td>
+                    <input type="number" class="kolTable_${i}" value="${userDataKolX}" onchange="kolTable(${i})">
+                  </td>
+                  <td class="priceTable_${i}">${userData[i][3]}</td>
+                  <td class="manyTable_${i}">${userDataSummaX}</td>
+                  <td>
+                    <input type="number" name="" value="${userData[i][4]}" onchange="matTable(${i})" class="matTable_${i}" id="">
+                  </td>
+                </tr>
+              `;
             }
-
+            document.querySelector(".addReport").innerHTML=`
+            <div class="block">
+              <div>
+                <div class="header">
+                  <span>
+                    <i class="fa fa-pencil"> </i> Товарды оңдоп түзөп жиберүү
+                  </span>
+                  <span class="closed" onclick="addReportOC()">
+                    &times;
+                  </span>
+                </div>
+                <div class="report">
+                  <button class="save" onclick="addReportSave(${userData[userDataN][2]})">
+                    Сактоо
+                  </button>
+                </div>
+                <div class="user">
+                  <div>Саны: <span class="kolUser">${userDataKol}</span> </div>
+                  <div>Акчасы: <span class="priceUser">${userDataSumma}</span>сом</div>
+                  <div> <input type="text" class="nameUser" onchange="nameUser()" value="${userData[userDataN][0]}" placeholder="Кардардын аты"></div>
+                  <div> <input type="tel" class="phoneUser" onchange="nameUser()" value="${userData[userDataN][1]}" placeholder="Телефон номери"></div>
+                </div>
+              </div>
+              <table>
+                <tr>
+                  <th>№</th>
+                  <th>Аталышы</th>
+                  <th>Товар саны</th>
+                  <th>Баасы</th>
+                  <th>Акчасы</th>
+                  <th>Материал саны</th>
+                </tr>
+                ${ans}
+                
+              </table>
+            </div>
+            `;
+          }
+          function kolTable(x) {
+            x = +x;
+            userData[x][1] = document.querySelector(`.kolTable_${x}`).value;
+            addReportShow();
+          }
+          function nameUser() {
+            userData[userData.length-1][0] = document.querySelector(".nameUser").value
+            userData[userData.length-1][1] = document.querySelector(".phoneUser").value
+          }
+          function matTable(x) {
+            x = +x;
+            userData[x][4] = document.querySelector(`.matTable_${x}`).value; 
+          }
+          function addReportSave(idReportSave) {
+            // alert(id);
+            document.querySelector(".addReport").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+            
+            let addReportTrash = userData.join("@");
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{idReportSave, addReportTrash},
+                  dataType:'html',
+                  success: function (data) {
+                    // addReportShow();
+                    document.querySelector(".fa-cart-shopping").innerHTML = `<span>${data}</span>`;
+                    addReportOC();
+                    cartShow()
+                  }
+              });
+          }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </body>
