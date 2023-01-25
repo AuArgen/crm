@@ -231,7 +231,7 @@ header .developer ul li {
 }
 
 header .developer ul li:hover {
-    background: rgba(0, 0, 0, 0.349);
+    background: rgba(0, 0, 0, 0.149);
 }
 
 header .developer ul .img {
@@ -542,4 +542,136 @@ header .developer ul .img img {
 }
 .addReport .block table tr:hover input {
     background: rgb(218, 216, 216);
+}
+
+.buyProduct {
+    width:100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.758);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.buyProductActive {
+    display: flex;
+}
+
+.buyProduct .buyProduct_block {
+    width:70%;
+    height: 98%;
+    background: white;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.buyProduct .buyProduct_block .buyProduct_header {
+    padding:5px;
+    border-bottom: 1px solid gray;
+}
+
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_header .closed {
+    font-size: 25px;
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_header .closed:hover {
+    color:white;
+    background: rgba(0, 0, 0, 0.448);
+}
+
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_chooce {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-start;
+    gap:10px;
+    align-items: center;
+}
+
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_chooce select {
+    width:50%;
+    padding:5px;
+    border-radius:5px;
+    background: rgba(181, 182, 180, 0.504);
+    border:1px solid rgba(0, 0, 0, 0.104)
+}
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_chooce button {
+    width:50%;
+    padding:5px;
+    border-radius:5px;
+    background: rgba(96, 236, 31, 0.904);
+    border:1px solid rgba(0, 0, 0, 0.104);
+    transition: 0.6s;
+    color:white;
+}
+.buyProduct .buyProduct_block .buyProduct_header .buyProduct_header_chooce button:hover {
+    background: white;
+    color:black;
+    transition: 0.6s;
+}
+.buyProduct .buyProduct_block table {
+    width:98%;
+    border-collapse: collapse;
+    margin:10px;
+}
+.buyProduct .buyProduct_block table th,  .buyProduct .buyProduct_block table td {
+    border:1px solid gray;
+    background: rgba(0, 0, 0, 0.448);
+    color:white;
+    text-align: center;
+    font-size: 13px;
+}
+
+.buyProduct .buyProduct_block table td {
+    background: rgba(0, 0, 0, 0.149);
+    color:black;
+    text-align: left;
+}
+
+.buyProduct .buyProduct_block table td input {
+    width:100%;
+    background: rgba(0, 0, 0, 0.00001);
+    color:black;
+    border:none;
+}
+.buyProduct .buyProduct_block table tr:hover td {
+    background: rgba(0, 0, 0, 0.251);
+}
+.buyProduct .buyProduct_block table tr:hover input{
+    background: rgba(0, 0, 0, 0.051);
+
+}
+
+.buyProduct .buyProduct_block button {
+    width:98%;
+    margin:1%;
+    background: rgb(11, 217, 231);
+    border:1px solid gray;
+    padding: 5px;
+    color:white;
+    /* text-shadow: 1px 1px 1px black; */
+    font-weight: 900;
+    transition: 0.3s;
+}
+.buyProduct .buyProduct_block button:hover {
+    background: white;
+    color:teal;
+    border:1px solid teal;
+    transition: 0.3s;
 }

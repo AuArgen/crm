@@ -3,6 +3,35 @@
     $y = ""; 
     $x = "";
     $trash = "";
+    if (isset($_POST["tovarNameFor"])) {
+      $tovarNameFor = $_POST["tovarNameFor"];
+      $tovarIdFor = $_POST["tovarIdFor"];
+      $tovarCountFor = $_POST["tovarCountFor"];
+      $tovarPriceFor = $_POST["tovarPriceFor"];
+      $tovarPriceAllFor = $_POST["tovarPriceAllFor"];
+      $r = $conn->query("INSERT INTO buyProducts(name_product, price_product, count_product, date_product,	all_price_product) VALUES('$tovarNameFor','$tovarPriceFor','$tovarCountFor',now(), '$tovarPriceAllFor')");
+      $t = 0;
+      if ($r) {
+          $r = $conn->query("SELECT * FROM product");
+          if (mysqli_num_rows($r)) {
+            $row = mysqli_fetch_array($r);
+            do {
+              $t = $row["count"]+0+$tovarCountFor;
+              
+            } while ($row = mysqli_fetch_array($r));
+          }
+          $e = $conn->query("UPDATE product SET count=$t WHERE id=$tovarIdFor");
+      }
+    }
+    if (isset($_POST["getBuyProduct"])) {
+      $r = $conn->query("SELECT * FROM product WHERE id_creater = $idCreater");
+      if (mysqli_num_rows($r)) {
+        $row = mysqli_fetch_array($r); 
+        do {
+          echo $row["id"].','.$row["name"].'@';
+        } while ($row = mysqli_fetch_array($r));
+      }
+    }
     if (isset($_POST["idReport"])) {
       $idReport = $_POST["idReport"];
       $r = $conn->query("SELECT * FROM orders WHERE id='$idReport'");
@@ -61,6 +90,22 @@
     }
     if ($y == "get") {
         $r = $conn -> query("SELECT * FROM product WHERE id_creater='$idCreater' ORDER BY id DESC");
+          if (mysqli_num_rows($r)) {
+            $row = mysqli_fetch_array($r);
+            do {
+              echo '<div class="block" onclick="add(`'.$row["artikul"].'$'.$row["price"].'$'.$row["name"].'`)">
+                      <img src="../admin/'.$row["image"].'" alt="">
+                      <p class="name"><span>Аты: </span> <span>'.$row["name"].'</span></p>
+                      <p class="price"><span>Баасы: </span><span>'.$row["price"].' сом</span></p>
+                      <p class="artikul"><span>Артикулу:</span> <span>'.$row["artikul"].'</span> </p>
+                      <p class=""><span>Даанасы:</span> <span>'.$row["count"].'</span> </p>
+                    </div>';
+            } while ($row = mysqli_fetch_array($r));
+          }
+    }
+    if (isset($_POST["search"])){
+      $search = $_POST["search"];
+      $r = $conn -> query("SELECT * FROM product WHERE id_creater='$idCreater' and artikul like '%$search%'  ORDER BY id DESC");
           if (mysqli_num_rows($r)) {
             $row = mysqli_fetch_array($r);
             do {

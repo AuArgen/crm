@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
-
+  <div class="buyProduct"></div>
   <div class="addReport"></div>
 
   <!-- start Work main -->
@@ -30,14 +30,14 @@
           <span class="fa fa-phone phone "> <?php echo $phone;?></span>
         </div>
       </div>
-      <div class="search">
-          <input type="search" name="" id="search" placeholder= "Товардын аты, артикулдан издөө">
+      <div class="search" style="display:<?php if ($statusDeveloper == "cashier") echo "none";?>">
+          <input type="search" name="" id="search" oninput="search()" placeholder= "Товардын аты, артикулдан издөө">
       </div>
-      <div class="cartCalculator">
+      <div class="cartCalculator" style="display:<?php if ($statusDeveloper == "cashier") echo "none";?>">
         <i class="fa fa-cart-shopping" onclick="cart()">
           <?php if ($kolOrders>0) echo '<span>'.$kolOrders.'</span>';?><!-- <span>100</span> -->
         </i>
-        <i class="fa fa-calculator"></i>
+        <i class="fa fa-calculator" onclick="buyProductGet()" <?php if ($statusDeveloper != "graphAndAdmin") echo'style="display:none;"';?>></i>
       </div>
       <div class="developer">
         <div class="user">
@@ -61,11 +61,48 @@
     <div class="main">
       <!-- start left main -->
       <div class="left">
+
         <?php
-          $r = $conn -> query("SELECT * FROM product WHERE id_creater='$idCreater' ORDER BY id DESC");
-          if (mysqli_num_rows($r)) {
-            $row = mysqli_fetch_array($r);
-            do {
+          if ($statusDeveloper == "cashier") {
+            echo '
+            <div class="cashier">
+            <table>
+              <tr>
+                <th>№</th>
+                <th>Клиент</th>
+                <th>Телефон</th>
+                <th>Заказы</th>
+                <th>Акчасы</th>
+                <th>Заказ күнү</th>
+                <th><i class="fa fa-check"></i></th>
+              </tr>
+            ';
+            $r = $conn -> query("SELECT * FROM orders WHERE  accepted='1'");
+            if (mysqli_num_rows($r)) {
+              $row = mysqli_fetch_array($r);
+              $count = 1;
+              $accepted = [];
+              do {
+                $accepted[]=[''];
+              echo '<tr>
+                    <td>'.$count++.'</td>
+                    <td>'.$row["client_order"].'</td>
+                    <td>'.$row["client_phone_order"].'</td>
+                    <td>'.$row["name_order"].'</td>
+                    <td>'.$row["price_order"].'</td>
+                    <td>'.$row["date_order"].'</td>
+                    <td><button><i class="fa fa-check"></i></button></td>
+                  </tr>';
+              } while ($row = mysqli_fetch_array($r));
+            }
+            echo"          </table>
+            </div>";
+          }
+          else {
+            $r = $conn -> query("SELECT * FROM product WHERE id_creater='$idCreater' ORDER BY id DESC");
+            if (mysqli_num_rows($r)) {
+              $row = mysqli_fetch_array($r);
+              do {
               echo '<div class="block" onclick="add(`'.$row["artikul"].'$'.$row["price"].'$'.$row["name"].'`)">
                       <img src="../admin/'.$row["image"].'" alt="">
                       <p class="name"><span>Аты: </span> <span>'.$row["name"].'</span></p>
@@ -73,7 +110,8 @@
                       <p class="artikul"><span>Артикулу:</span> <span>'.$row["artikul"].'</span> </p>
                       <p class=""><span>Даанасы:</span> <span>'.$row["count"].'</span> </p>
                     </div>';
-            } while ($row = mysqli_fetch_array($r));
+              } while ($row = mysqli_fetch_array($r));
+            }
           }
         ?>
         
@@ -155,23 +193,43 @@
         function work() {
           clearTimeout(timer)
           let y = "get"
-          $.ajax({
-                url:'./upload.php',
-                type:'POST',
-                cache:false,
-                data:{y},
-                dataType:'html',
-                success: function (data) {
-                  if (data.substr(0,4) != "<div") window.location.reload("./") 
-                  document.querySelector(".left").innerHTML=data;
-                  update()
-                }
-            });
+          if (document.querySelector("#search").value=="" ) {
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{y},
+                  dataType:'html',
+                  success: function (data) {
+                    if (data.substr(0,4) != "<div") window.location.reload("./") 
+                    document.querySelector(".left").innerHTML=data;
+                    update()
+                  }
+              });
+          } else {
+            update();
+          }
 
         }
       }
+      let statusDeveloper = "<?php echo $statusDeveloper;?>";
+      if (statusDeveloper != "cashier")
       update()
-
+      function search() {
+        let search = document.querySelector("#search").value
+        // if (search == "") update();
+        $.ajax({
+                url:'./upload.php',
+                type:'POST',
+                cache:false,
+                data:{search},
+                dataType:'html',
+                success: function (data) {
+                  if (data.substr(0,4) != "<div") update(); 
+                  document.querySelector(".left").innerHTML=data;
+                }
+            });       
+      }
 
       function start(y) {
         document.querySelector(".workStart").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40">`
@@ -190,6 +248,10 @@
       }
       let trash = [], kolElement = 0, summaElement = 0;
       function add(x) {
+        if (document.querySelector(".cartActive")) {
+          document.querySelector(".trash").classList.toggle("trashNone");
+          document.querySelector(".cart").classList.toggle("cartActive")
+        }
         let price = "", count = 1 , name = "",artikul = "",r = 0, summa;
         for (let i = 0; i < x.length; i++) {
           if (x[i] == "$") {
@@ -286,7 +348,7 @@
                         <input type="number" onchange="updateKol(${i})" id="id${i}" value = ${trash[i][1]} min=1>
                       </td>
                       <td>${trash[i][3]}</td>
-                      <td>${+trash[i][3]* +trash[i][2]}</td>
+                      <td>${+trash[i][3]* +trash[i][1]}</td>
                       <td class="button">
                           <button onclick="deleteP(${i})"> <i class="fa fa-trash"></i> </button>
                       </td>
@@ -464,7 +526,19 @@
           function addReportSave(idReportSave) {
             // alert(id);
             document.querySelector(".addReport").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
-            
+            let userDataN  = userData.length-1;
+            let userDataKol = 0;
+            let userDataSumma = 0;
+            let ans = ``;
+            for (let i = 0; i < userDataN; i++) {
+              let userDataKolX = +userData[i][1];
+              userDataKol += userDataKolX;
+              let userDataSummaX = (+userData[i][3]) * (+userData[i][1])
+              userDataSumma += userDataSummaX;
+              ans += `
+
+              `;
+            }
             let addReportTrash = userData.join("@");
             $.ajax({
                   url:'./upload.php',
@@ -479,6 +553,125 @@
                     cartShow()
                   }
               });
+          }
+
+          function buyProductCO() {
+            document.querySelector(".buyProduct").classList.toggle("buyProductActive");
+          }
+          let buyProductArray = [];
+          // let buyProductArrayShow = [];
+          function buyProductGet() {
+            buyProductCO();
+            document.querySelector(".buyProduct").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+            let getBuyProduct="get";
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{getBuyProduct},
+                  dataType:'html',
+                  success: function (data) {
+                    buyProductArray = [];
+                    var buyProductArrayX = data.split("@");
+                    let buyProductArrayXN = buyProductArrayX.length;
+                    for (let i = 0; i < buyProductArrayXN-1; i++) {
+                      buyProductArray.push((buyProductArrayX[i]+",0,0,0,0").split(',')) 
+                    }
+                    buyProductShow();
+                  }
+              });
+          }
+
+          function buyProductShow() {
+            let buyProductArrayN = buyProductArray.length;
+            let s = ``;
+            let c = ``, ycn = 1;
+            for (let i = 0; i < buyProductArrayN; i++) {
+              s += `
+                <option value='${i}'>${buyProductArray[i][1]}</option>
+              `;
+              if (buyProductArray[i][2] == 1) {
+                c += `
+                <tr>
+                  <td>${ycn++}</td>
+                  <td>${buyProductArray[i][1]}</td>
+                  <td><input type="number" class="addTovarName_count_${i}" placeholder ="0" onchange="addTovarName_count(${i})" value="${buyProductArray[i][3]}"></td>
+                  <td><input type="number" class="addTovarName_price_${i}" placeholder ="0" onchange="addTovarName_count(${i})" value="${buyProductArray[i][4]}" ></td>
+                  <td><input type="number" class="addTovarName_price_all_${i}" placeholder ="0" onchange="addTovarName_price_all(${i})" value="${buyProductArray[i][5]}"></td>
+                </tr>
+                `;
+              }
+            }
+            document.querySelector(".buyProduct").innerHTML = `
+            <div class="buyProduct_block">
+            <div class="buyProduct_header">
+              <div class="buyProduct_header_header">
+                <span class="fa fa-circle-plus"> Сатып алынган товарды кошуу.</span>
+                <span class="closed" onclick="buyProductCO()">&times;</span>
+              </div>
+              <div class="buyProduct_header_chooce">
+                <select name="" id="tovarName">${s}</select>
+          <button class="addTovarName" onclick="addTovarName()">
+            Тандалган товарды кошуу
+          </button>
+        </div>
+      </div>
+      <table>
+        <tr>
+          <th>№</th>
+          <th>Аты</th>
+          <th>Саны</th>
+          <th>Жеке баасы</th>
+          <th>Жалпы баасы</th>
+        </tr>
+        ${c}
+      </table>
+      <button onclick="saveTovar()">
+        Сактоо
+      </button>
+    </div>
+          `;
+          }
+          function addTovarName() {
+            let i = +document.querySelector("#tovarName").value
+            buyProductArray[i][2] = 1;
+            buyProductShow();
+          }
+          function addTovarName_count(i) {
+            let addTovarNameCount = +document.querySelector(`.addTovarName_count_${i}`).value
+            let addTovarNamePrice = +document.querySelector(`.addTovarName_price_${i}`).value
+            buyProductArray[i][3] = addTovarNameCount;
+            buyProductArray[i][4] = addTovarNamePrice;
+            buyProductArray[i][5] = addTovarNameCount*addTovarNamePrice;
+            buyProductShow();
+          }
+          function addTovarName_price_all(i) {
+            let addTovarNamePriceAll = +document.querySelector(`.addTovarName_price_all_${i}`).value
+            buyProductArray[i][5] = addTovarNamePriceAll;
+            buyProductShow();
+          }
+          function saveTovar() {
+            for (let i = 0; i < buyProductArray.length; i++) {
+              if (buyProductArray[i][2] == 1) {
+                let tovarNameFor = buyProductArray[i][1];
+                let tovarIdFor = buyProductArray[i][0];
+                let tovarCountFor = buyProductArray[i][3];
+                let tovarPriceFor = buyProductArray[i][4];
+                let tovarPriceAllFor = buyProductArray[i][5];
+                $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{tovarNameFor,tovarIdFor,tovarCountFor,tovarPriceFor,tovarPriceAllFor},
+                  dataType:'html',
+                  success: function (data) {
+                    buyProductShow();
+                  }
+              });
+              }
+            }
+            buyProductArray = [];
+            buyProductCO();
           }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

@@ -35,7 +35,6 @@
 	} else {
 		header('location:login.php');
 	}
-	
 	$r = $conn -> query("SELECT * FROM creater WHERE id = '$idCreater'");
 	$logo = "";
 	$nameOffice;
@@ -50,4 +49,5 @@
 	}
 	$r = $conn -> query("SELECT * FROM orders WHERE id_developers=$idDevoloper and accepted='0'");
 	$kolOrders = mysqli_num_rows($r);
+
 ?>
