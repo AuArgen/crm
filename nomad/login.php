@@ -120,6 +120,7 @@
 				$_SESSION["passDevoloper"]=$p;
 				$_SESSION["idCreaterDeveloper"]=$idCreaterDeveloper;
 				$_SESSION["fio_creater_developer"] = $fioCreaterDeveloper;
+				$_SESSION["dateIsStarted"] = substr(date("Y-m-d H:i:s"),8,2);
 				header('location:index.php');
 			} while ($row = mysqli_fetch_array($r));
 		}

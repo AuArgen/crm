@@ -13,6 +13,42 @@
   <body>
   <div class="buyProduct"></div>
   <div class="addReport"></div>
+  <div class="historyDev">
+    <div class="historyDev_block">
+      <div class="historyDev_header">
+        <div class="historyDev_header_header">
+          <span>
+            <i class="fa fa-history"> </i> 
+             Акыркы  списог.
+          </span>
+          <span class="closed" onclick="closeHistoryDev()"> &times; </span>
+        </div>
+        <div class="historyDev_header_nav">
+          <span onclick="" class="activeSpan">1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span><span>22</span>
+        </div>
+        <div class="historyDev_header_price">
+          <span> Сумма: <b class="historyDev_header_price_summa">234532</b> </span>
+          <span>Заказ саны: <b class="historyDev_header_price_count">234532</b> </span>
+        </div>
+      </div>
+      <table class="showHistoryDev">
+        
+        <tr>
+          <td>2</td>
+          <td>Azizbek uulu Argen</td>
+          <td> 5 </td>
+          <td> 5000 </td>
+          <td> 2023-11-30 12:34:45 </td>
+          <td> 2023-11-31 16:34:45 </td>
+          <td> 1000 </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
   <!-- start Work main -->
     <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && substr(date("Y-m-d H:i:s"),0,10) != substr($workEnd,0,10) ) echo"workStartNone"; ?>">
@@ -38,6 +74,7 @@
           <?php if ($kolOrders>0) echo '<span>'.$kolOrders.'</span>';?><!-- <span>100</span> -->
         </i>
         <i class="fa fa-calculator" onclick="buyProductGet()" <?php if ($statusDeveloper != "graphAndAdmin") echo'style="display:none;"';?>></i>
+        <i class="fa fa-history" onclick="closeHistoryDev()"></i>
       </div>
       <div class="developer">
         <div class="user">
@@ -53,7 +90,7 @@
         <ul>
           <li class="img"><img src="../admin/<?php echo $imageDeveloper;?>" alt=""></li>
           <li><span class="fa fa-user"> <?php echo $fioDeveloper;?> </span></li>
-          <li onclick="start('exit')"><i class="fa fa-arrow-right-from-bracket"></i> <span>Чыгуу</span></li>
+          <li onclick="start('exit')"><i class="fa fa-arrow-right-from-bracket"></i> <span>Чыгуу <?php echo $_SESSION["loginDevoloper"];?> </span></li>
           <li onclick="start('workEnd')"><i class="fa fa-times-circle"> </i> <span>Жумушту токтотуу</span></li>
         </ul>
       </div>
@@ -74,7 +111,7 @@
                 <th>Заказы</th>
                 <th>Акчасы</th>
                 <th>Заказ күнү</th>
-                <th><i class="fa fa-check"></i></th>
+                
               </tr>
             ';
             $r = $conn -> query("SELECT * FROM orders WHERE  accepted='1'");
@@ -84,15 +121,14 @@
               $accepted = [];
               do {
                 $accepted[]=[''];
-              echo '<tr>
-                    <td>'.$count++.'</td>
-                    <td>'.$row["client_order"].'</td>
-                    <td>'.$row["client_phone_order"].'</td>
-                    <td>'.$row["name_order"].'</td>
-                    <td>'.$row["price_order"].'</td>
-                    <td>'.$row["date_order"].'</td>
-                    <td><button><i class="fa fa-check"></i></button></td>
-                  </tr>';
+              echo '<tr onclick="finishedTovar('.$row["id"].')">
+                      <td>'.$count++.'</td>
+                      <td>'.$row["client_order"].'</td>
+                      <td>'.$row["client_phone_order"].'</td>
+                      <td>'.$row["name_order"].'</td>
+                      <td>'.$row["price_order"].'</td>
+                      <td>'.$row["date_order"].'</td>
+                    </tr>';
               } while ($row = mysqli_fetch_array($r));
             }
             echo"          </table>
@@ -124,9 +160,9 @@
             <div class="header">
               <div class="kol">Саны: <span class="kolSpan">0</span> </div>
               <div class="price">Акчасы: <span class="priceSpan">0</span>сом</div>
-              <div class="client"> <input type="text" class="nameClient" placeholder="Кардардын аты"></div>
-              <div class="client"> <input type="tel" class="phoneClient" placeholder="Телефон номери"></div>
-              <div class="submit" onclick="addClient('0')"> Кардарды кошуу </div>
+              <div class="client" style="<?php if ($statusDeveloper == "cashier") echo'display:none';?>"> <input type="text" class="nameClient" placeholder="Кардардын аты"></div>
+              <div class="client" style="<?php if ($statusDeveloper == "cashier") echo'display:none';?>"> <input type="tel" class="phoneClient" placeholder="Телефон номери"></div>
+              <div class="submit" onclick="addClient('0')" style="<?php if ($statusDeveloper == "cashier") echo'display:none';?>"> Кардарды кошуу </div>
             </div>
             <div class="trashShow">
                 <div class="trashShowBlock">
@@ -183,10 +219,17 @@
     <script src="../admin/js/jquery-1.9.1.min.js"></script>
     <script>
       function update() {
-        let getDate = "<?php echo substr(date("Y-m-d H:i:s"),8,2)?>";
+        let getDate;
         let jsDate = new Date().getDate();
+        if (localStorage.getItem("date")) {
+          getDate = localStorage.getItem("date")
+          localStorage.setItem("date",jsDate)
+          if (+getDate != +jsDate) window.location.reload()
+        }else {
+          localStorage.setItem("date",jsDate)
+          if (+getDate != +jsDate) window.location.reload()
+        }
         // console.log(+getDate, +jsDate)
-        if (+getDate != +jsDate) window.location.reload()
         let timer = setTimeout(() => {
           work()
         }, 3000);
@@ -212,9 +255,38 @@
 
         }
       }
+      function updateCashier() {
+        let getDate = "<?php echo substr(date("Y-m-d H:i:s"),8,2)?>";
+        let jsDate = new Date().getDate();
+        // console.log(+getDate, +jsDate)
+        if (+getDate != +jsDate) window.location.reload()
+        let timer = setTimeout(() => {
+          work()
+        }, 3000);
+        function work() {
+          clearTimeout(timer)
+          let y = "getCashier"
+          // if (document.querySelector("#search").value=="" ) {
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{y},
+                  dataType:'html',
+                  success: function (data) {
+                    // if (data.substr(0,4) != ".") window.location.reload("./") 
+                    document.querySelector(".left").innerHTML=data;
+                    updateCashier()
+                  }
+              });
+          
+
+        }
+      }
       let statusDeveloper = "<?php echo $statusDeveloper;?>";
       if (statusDeveloper != "cashier")
       update()
+      else updateCashier();
       function search() {
         let search = document.querySelector("#search").value
         // if (search == "") update();
@@ -240,9 +312,8 @@
                 data:{y},
                 dataType:'html',
                 success: function (data) {
-                  if (data == "ok")
-                  document.querySelector(".workStart").classList.toggle("workStartNone");
-                  if (data == "loading") window.location.reload("./")
+                  // alert(y+data)
+                   window.location.reload("./")
                 }
             });
       }
@@ -269,11 +340,12 @@
         }
         count = addKol(artikul);
         // summa = (+price) * (+count[0]);
-        let trashX = [artikul, count[0], name,price,0];
+        let trashX = [artikul, count[0], name,price,+price*(+count[0]),count[0]];
         if (+count[0] == 1) trash.push(trashX)
         else {
           trash[+count[1]][1] = count[0];
-          // trash[+count[1]][4] = 0;
+          trash[+count[1]][5] = count[0];
+          trash[+count[1]][4] = trash[+count[1]][3]*trash[+count[1]][1];
         }
         show()
       }
@@ -338,6 +410,8 @@
         kolElement = 0;
         summaElement = 0;
         for (let i = 0; i < n; i++) {
+        console.log(trash[i])
+
           kolElement += +trash[i][1];
           summaElement += +trash[i][4];
           s += `
@@ -448,6 +522,7 @@
             let userDataN  = userData.length-1;
             let userDataKol = 0;
             let userDataSumma = 0;
+            // console.table(userData)
             let ans = ``;
             for (let i = 0; i < userDataN; i++) {
               let userDataKolX = +userData[i][1];
@@ -467,7 +542,7 @@
                   <td class="priceTable_${i}">${userData[i][3]}</td>
                   <td class="manyTable_${i}">${userDataSummaX}</td>
                   <td>
-                    <input type="number" name="" value="${userData[i][4]}" onchange="matTable(${i})" class="matTable_${i}" id="">
+                    <input type="number" name="" value="${userData[i][5]}" onchange="matTable(${i})" class="matTable_${i}" id="">
                   </td>
                 </tr>
               `;
@@ -521,7 +596,7 @@
           }
           function matTable(x) {
             x = +x;
-            userData[x][4] = document.querySelector(`.matTable_${x}`).value; 
+            userData[x][5] = document.querySelector(`.matTable_${x}`).value; 
           }
           function addReportSave(idReportSave) {
             // alert(id);
@@ -529,22 +604,37 @@
             let userDataN  = userData.length-1;
             let userDataKol = 0;
             let userDataSumma = 0;
-            let ans = ``;
+            let userDataName = userData[userDataN][0]
+            let userDataPhone = userData[userDataN][1]
+            let ans = "";
             for (let i = 0; i < userDataN; i++) {
-              let userDataKolX = +userData[i][1];
-              userDataKol += userDataKolX;
+              let userDataKolX = +userData[i][5];
+              let userDataKolN = +userData[i][1];
+              let userDataArtiulX = userData[i][0];
+              // alert(userDataKolX)
+              userDataKol += userDataKolN;
               let userDataSummaX = (+userData[i][3]) * (+userData[i][1])
+              let userDataNameX = userData[i][2];
               userDataSumma += userDataSummaX;
-              ans += `
-
-              `;
+              $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{userDataKolX,userDataKolN,userDataArtiulX},
+                  dataType:'html',
+                  success: function (data) {                    
+                    ans=ans;
+                  }
+              });
+              ans += `${userDataNameX}-[${userDataKolN}][${userDataKolX}],<br>`;
             }
-            let addReportTrash = userData.join("@");
+            // console.log(ans)
+            let addReportTrash = ans;
             $.ajax({
                   url:'./upload.php',
                   type:'POST',
                   cache:false,
-                  data:{idReportSave, addReportTrash},
+                  data:{idReportSave, addReportTrash,userDataSumma,userDataKol,userDataName,userDataPhone},
                   dataType:'html',
                   success: function (data) {
                     // addReportShow();
@@ -672,6 +762,118 @@
             }
             buyProductArray = [];
             buyProductCO();
+          }
+          function finishedTovar(x) {
+            let finishedTovarX = x;
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{finishedTovarX},
+                  dataType:'html',
+                  success: function (data) {
+                    updateCashier();
+                    alert("OK")
+                  }
+              });
+          }
+          let historys = []
+          function closeHistoryDev() {
+            document.querySelector(".showHistoryDev").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+            document.querySelector(".historyDev_header_nav").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+            document.querySelector(".historyDev_header_price").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+            document.querySelector(".historyDev").classList.toggle("historyDevActive");
+            let historyDev=1;
+            if (document.querySelector(".historyDevActive"))
+            $.ajax({
+                  url:'./upload.php',
+                  type:'POST',
+                  cache:false,
+                  data:{historyDev},
+                  dataType:'html',
+                  success: function (data) {
+                    // updateCashier();
+                    historys = []
+                    let historyDev = data.split("+%+")
+                    let xy = [];
+                    let l = "";
+                    for (let i = 0; i < historyDev.length-1; i++) {
+                      let o = historyDev[i].split("-$-")
+                      if (l == "") l = o[2].substr(0,10);
+                      if (l != o[2].substr(0,10)) {
+                        l = o[2].substr(0,10);
+                        historys.push(xy);
+                        xy = [];
+                      }
+                      xy.push(o);
+                    }
+                    historys.push(xy);
+                    showHistoryDev(0);
+                  }
+              });
+          }
+          function showHistoryDev(x) {
+            // console.table(historys);
+            let d = `
+            <tr>
+              <th>#</th>
+              <th>Аты</th>
+              <th>Саны</th>
+              <th>Акчасы</th>
+              <th>Жасалган</th>
+              <th>Телефон</th>
+              <th>Бүкөн</th>
+              <th>Алынган</th>
+            </tr>
+            `;
+            let d2 = ``;
+            let countn = 1;
+            let allSummaHistory = 0;
+            let thisSummaHistory = 0;
+            let allCountHistory = 0;
+            let thisCountHistory = 0;
+            for (let i = 0; i < historys.length; i++) {
+              let xy = historys[i]
+              if (+x == i) {
+                d2 += `<span onclick="showHistoryDev(${i})" class="activeSpan">${i+1}</span>`;
+                for (let j = 0; j < xy.length && +x == i; j++) {
+                  d += `
+                  <tr>
+                    <td>${countn++}</td>
+                    <td>${xy[j][0]}</td>
+                    <td> ${xy[j][4]} </td>
+                    <td> ${xy[j][3]} </td>
+                    <td> ${xy[j][1]} </td>
+                    <td> ${xy[j][5]} </td>
+                    <td> ${xy[j][2]} </td>
+                    <td> ${xy[j][6]}  </td>
+                  </tr>
+                  `;
+                  allSummaHistory += +xy[j][6]
+                  thisSummaHistory += +xy[j][6]
+                  allCountHistory += +xy[j][4]
+                  thisCountHistory += +xy[j][4]
+                  
+                }
+              }
+              else {
+                d2 += `<span onclick="showHistoryDev(${i})" class="">${i+1}</span>`;
+                for (let j = 0; j < xy.length ; j++) {
+                  allSummaHistory += +xy[j][6]
+                  allCountHistory += +xy[j][4]
+                }
+              }
+              
+            }
+            d += `</table>`
+            document.querySelector(".showHistoryDev").innerHTML = d
+            document.querySelector(".historyDev_header_nav").innerHTML = d2
+            document.querySelector(".historyDev_header_price").innerHTML = `
+              <span> Жалпы сумма: <b class="historyDev_header_price_summa">${allSummaHistory}</b> </span>
+              <span>Жалпы заказ саны: <b class="historyDev_header_price_count">${allCountHistory}</b> </span>
+              <span> Жеке сумма: <b class="historyDev_header_price_summa">${thisSummaHistory}</b> </span>
+              <span>Жеке заказ саны: <b class="historyDev_header_price_count">${thisCountHistory}</b> </span>
+            `;
           }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

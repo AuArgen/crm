@@ -118,10 +118,10 @@ if (mysqli_num_rows($r)) {
 							  </div>
 							</div>
                             <div class="control-group">
-							  <label class="control-label" for="oname_office">Оффистин аталышы</label>
+							  <!-- <label class="control-label" for="oname_office">Оффистин аталышы</label> -->
 							  <div class="controls">
-								<input type="text" required maxLength="100" name = "name_office" class="span6 status" id="oname_office"  data-provide="typeahead" value="<?php echo $name_office;?>">
-								<p class="help-block">Оффистин аталышы</p>
+								<input type="hidden" required maxLength="100" name = "name_office" class="span6 status" id="oname_office"  data-provide="typeahead" value="<?php echo $name_office;?>">
+								<!-- <p class="help-block">Оффистин аталышы</p> -->
 							  </div>
 							</div>
                             <div class="control-group">

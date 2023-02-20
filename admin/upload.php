@@ -340,7 +340,7 @@ function images() {
       $e = end($test);
       $name = "IMG-".date("Y-m-d-H-i-s").''.rand(1,10000).'k.'.$e;
       $l = './img/'.$name;
- chmod('img', 0777);
+      chmod('img', 0777);
 
       if (move_uploaded_file($_FILES["images"]["tmp_name"],$l))
       {

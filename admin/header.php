@@ -182,12 +182,12 @@
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li><a href="index.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Главная</span></a></li>	
-						<li><a href="messages.php"><i class="icon-envelope"></i><span class="hidden-tablet"> Сообшение</span></a></li>
+						<!-- <li><a href="messages.php"><i class="icon-envelope"></i><span class="hidden-tablet"> Сообшение</span></a></li> -->
 						<li><a href="./we.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Биз</span></a></li>
-						<li><a href="./contact.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Контакт</span></a></li>
+						<!-- <li><a href="./contact.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Контакт</span></a></li> -->
 						<!-- <li><a href="tasks.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Задачи</span></a></li> -->
 						<li><a href="towar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Товар</span></a></li>
-						<li><a href="seminar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Семинар</span></a></li>
+						<!-- <li><a href="seminar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Семинар</span></a></li> -->
 						<li><a href="admin.php"><i class="icon-edit"></i><span class="hidden-tablet"> Админ</span></a></li>
 						<!-- <li><a href="form second.php"><i class="icon-edit"></i><span class="hidden-tablet"> Формы2</span></a></li> -->
 						<!-- <li><a href="chart.php"><i class="icon-list-alt"></i><span class="hidden-tablet"> Чаты</span></a></li> -->

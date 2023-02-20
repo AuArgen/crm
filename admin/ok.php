@@ -23,5 +23,14 @@
 	} else {
 		header('location:login.php');
 	}
-	
+	$usersKol = 0;
+	$r = $conn -> query("SELECT * FROM developers WHERE id_creater = '$idCreater'");
+	$usersKol = mysqli_num_rows($r);
+	$r = $conn -> query("SELECT * FROM product WHERE id_creater = '$idCreater'");
+	$userProduct = mysqli_num_rows($r);
+	$date = date("Y-m-d");
+	$r = $conn -> query("SELECT * FROM orders WHERE id_creater = '$idCreater' and get_developer='-' and date_order LIKE '%$date%'");
+	$userOrder = mysqli_num_rows($r);
+	$r = $conn -> query("SELECT * FROM orders WHERE id_creater = '$idCreater' ");
+	$userOrders = mysqli_num_rows($r);
 ?>

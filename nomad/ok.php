@@ -3,6 +3,15 @@
 	require("../admin/php/conn.php");
     $sessionLoginDeveloper ="@@@324";
     $sessionPassDeveloper = "@@1224";
+	if (isset($_SESSION["dateIsStarted"])) {
+		$dateIsStarted = $_SESSION["dateIsStarted"];
+		if ($dateIsStarted != "$%$%$" && $dateIsStarted !=substr(date("Y-m-d H:i:s"),8,2) ) {
+			$_SESSION["loginDevoloper"] = "%^%^%^^%^"; 
+			$_SESSION["passDevoloper"] = "%^%^%^^%^"; 
+			$_SESSION["dateIsStarted"] = "$%$%$";
+			
+		}
+	}
 	if (isset($_SESSION["loginDevoloper"])) {
 		$sessionLoginDeveloper =$_SESSION["loginDevoloper"]; 
 		$sessionPassDeveloper = $_SESSION["passDevoloper"];
@@ -50,4 +59,11 @@
 	$r = $conn -> query("SELECT * FROM orders WHERE id_developers=$idDevoloper and accepted='0'");
 	$kolOrders = mysqli_num_rows($r);
 
+
+	// SELECT *
+// FROM orders
+// where date_order between '2022-01-01' and '2023-01-20';
+// SELECT *
+// FROM    orders
+// WHERE   date_order BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
 ?>

@@ -62,22 +62,24 @@ require("./header.php");
 
 				<a class="quick-button metro yellow span2">
 					<i class="icon-group"></i>
-					<p>Users</p>
-					<span class="badge">237</span>
+					<p>Жумушчулардын саны</p>
+					<span class="badge"><?php echo $usersKol;?></span>
 				</a>
 				<a class="quick-button metro red span2">
-					<i class="icon-comments-alt"></i>
-					<p>Comments</p>
-					<span class="badge">46</span>
+					<i class="icon-shopping-cart"></i>
+					<p>Жалпы заказдар</p>
+					<span class="badge"><?php echo $userOrder;?></span>
 				</a>
 				<a class="quick-button metro blue span2">
 					<i class="icon-shopping-cart"></i>
-					<p>Orders</p>
-					<span class="badge">13</span>
+					<p>Заказдар бүгүнкү</p>
+					<span class="badge"><?php echo $userOrder;?></span>
 				</a>
 				<a class="quick-button metro green span2">
 					<i class="icon-barcode"></i>
-					<p>Products</p>
+					<p>Товарлар</p>
+					<span class="badge"><?php echo $userProduct;?></span>
+
 				</a>
 				<a class="quick-button metro pink span2">
 					<i class="icon-envelope"></i>
