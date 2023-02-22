@@ -181,7 +181,7 @@
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="index.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Главная</span></a></li>	
+						<li><a href="index.php"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Башкы бет</span></a></li>	
 						<!-- <li><a href="messages.php"><i class="icon-envelope"></i><span class="hidden-tablet"> Сообшение</span></a></li> -->
 						<li><a href="./we.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Биз</span></a></li>
 						<!-- <li><a href="./contact.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Контакт</span></a></li> -->
@@ -194,7 +194,7 @@
 						<!-- <li><a href="gallery.php"><i class="icon-picture"></i><span class="hidden-tablet"> Галерея</span></a></li> -->
 						<!-- <li><a href="calendar.php"><i class="icon-calendar"></i><span class="hidden-tablet"> Календарь</span></a></li> -->
 						<!-- <li><a href="file-manager.php"><i class="icon-folder-open"></i><span class="hidden-tablet"> Файловй менеджер</span></a></li> -->
-						<li><a href="login.php"><i class="icon-lock"></i><span class="hidden-tablet"> Страница авторизации</span></a></li>
+						<!-- <li><a href="login.php"><i class="icon-lock"></i><span class="hidden-tablet"> </span></a></li> -->
 					</ul>
 				</div>
 			</div>

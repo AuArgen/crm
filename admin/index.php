@@ -3,7 +3,7 @@
 <head>
 	
 	<meta charset="utf-8">
-	<title>Главная</title>
+	<title>Башкы бет</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -15,16 +15,16 @@
 	<!-- start: CSS -->
 	<link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.css">
 	<link id="base-style" href="css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
-	
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
 	
 	<script src="http://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
 		
-		
+	<script src="https://code.highcharts.com/highcharts.js"></script>
 		
 </head>
 
@@ -50,7 +50,7 @@ require("./header.php");
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.php">Главная </a> 
+					<a href="index.php">Башкы бет </a> 
 					<i class="icon-angle-right"></i>
 				</li>
 
@@ -68,7 +68,7 @@ require("./header.php");
 				<a class="quick-button metro red span2">
 					<i class="icon-shopping-cart"></i>
 					<p>Жалпы заказдар</p>
-					<span class="badge"><?php echo $userOrder;?></span>
+					<span class="badge"><?php echo $userOrders;?></span>
 				</a>
 				<a class="quick-button metro blue span2">
 					<i class="icon-shopping-cart"></i>
@@ -82,13 +82,15 @@ require("./header.php");
 
 				</a>
 				<a class="quick-button metro pink span2">
-					<i class="icon-envelope"></i>
-					<p>Messages</p>
-					<span class="badge">88</span>
+					<i class="icon-money"></i>
+					<p>Жалпы акча</p>
+					<span class="badge"><?php echo $allMoney;?></span>
 				</a>
 				<a class="quick-button metro black span2">
-					<i class="icon-calendar"></i>
-					<p>Calendar</p>
+					<i class="icon-money"></i>
+					<p>Бүгүнкү акча</p>
+					<span class="badge"><?php echo $thisMoney;?></span>
+
 				</a>
 				
 				<div class="clearfix"></div>
@@ -106,19 +108,9 @@ require("./header.php");
 						</div>
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-						  <fieldset>
-							<div class="control-group">
-							  <label class="control-label" for="search">Атын жазып издөө </label>
-							  <div class="controls">
-							  <button type="submit" name = "searchDate" class="btn btn-primary">Издөө</button>
-								<input type="text" placeholder="Издөө" required class="span6 typeahead" name="search" id="search"  data-provide="typeahead" data-items="4" >
-							  </div>
-							</div>
-					
-								
-						  </fieldset>
-						</form>   
+						<table class="table showUsers" style="font-size:12px;" border=1>
+							
+						</table>
 
 					</div>
 				</div><!--/span-->
@@ -156,11 +148,55 @@ require("./header.php");
 
 	</footer>
 	<script>
-                
+                let arrayUsers = [<?php 
+					$n = sizeof($usersArray);
+					for ($i=0; $i < $n; $i++) {
+						$x = $usersArray[$i]; 
+						$xn = sizeof($x);
+						echo '[';
+						for ($j=0; $j < $xn; $j++) { 
+							echo '`'.$x[$j].'`,';
+						}
+						echo '],';
+					}
+				?>];
+				let showArray = arrayUsers;
+				function showUsers() {
+					let d = `
+					<tr>
+								<th>#</th>
+								<th>Аты - жөнү</th>
+								<th> Жалпы акчасы </th>
+								<th>Жалпы Заказы</th>
+								<th>Бүгүнкү акча</th>
+								<th>Бүгүнкү заказдар </th>
+								<th>Баштоо</th>
+								<th>Аяктоо</th>
+							</tr>
+					`;
+					for (let i = 0; i < showArray.length; i++) {
+						let nn = showArray[0].length;
+						d += `
+							<tr>
+								<td>${i+1}</td>
+								<td>${showArray[i][1]}</td>
+								<td>${showArray[i][nn-2]}</td>
+								<td>${showArray[i][nn-1]}</td>
+								<td>${showArray[i][nn-4]}</td>
+								<td>${showArray[i][nn-3]}</td>
+								<td>${showArray[i][2].substr(0,10)} <br> ${showArray[i][2].substr(10,20)}</td>
+								<td>${showArray[i][3].substr(0,10)} <br> ${showArray[i][3].substr(10,20)}</td>
+							</tr>
+						`;
+					}
+					document.querySelector(".showUsers").innerHTML = d;
+				}
+				showUsers();
+				console.table(arrayUsers);
 
-				CKEDITOR.replace( 'editor1', {
-					filebrowserUploadUrl: "./upload.php"
-});
+// 				CKEDITOR.replace( 'editor1', {
+// 					filebrowserUploadUrl: "./upload.php"
+// });
 
 				
 		</script>

@@ -70,10 +70,10 @@
 			<div class="row-fluid">
 				<div class="login-box">
 					<div class="icons">
-						<a href="../admin/index.html"><i class="halflings-icon home"></i></a>
-						<a href="../admin/#"><i class="halflings-icon cog"></i></a>
+						<a href=""><i class="halflings-icon home"></i></a>
+						<a href=""><i class="halflings-icon cog"></i></a>
 					</div>
-					<h2>Login to your account</h2>
+					<h2>Логин жана Сыр сөз жазып кириңиз</h2>
 					<form class="form-horizontal" method="post">
 						<fieldset>
 							
@@ -89,18 +89,15 @@
 							</div>
 							<div class="clearfix"></div>
 							
-							<label class="remember" for="remember"><input type="checkbox" id="remember" required="" />Remember me</label>
+							<label class="remember" for="remember"><input type="checkbox" id="remember" required="" />Басыңыз</label>
 
 							<div class="button-login">	
-								<button type="submit" name="lg" class="btn btn-primary">Login</button>
+								<button type="submit" name="lg" class="btn btn-primary">Кирүү</button>
 							</div>
 							<div class="clearfix"></div>
 					</form>
 					<hr>
-					<h3>Forgot Password?</h3>
-					<p>
-						No problem, <a href="../admin/#">click here</a> to get a new password.
-					</p>	
+					
 				</div><!--/span-->
 			</div><!--/row-->
 			
