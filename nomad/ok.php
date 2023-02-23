@@ -42,7 +42,7 @@
 			$workEnd = $row["end_working"];
 		} while ($row = mysqli_fetch_array($r));
 	} else {
-		header('location:login.php');
+		header('location:../');
 	}
 	$r = $conn -> query("SELECT * FROM creater WHERE id = '$idCreater'");
 	$logo = "";

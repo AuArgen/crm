@@ -147,7 +147,9 @@
     } 
     if ($y == "workEnd") {
         if ($conn -> query("UPDATE developers SET end_working = now() WHERE id = '$idDevoloper'")) {
-            echo'loading';
+          $_SESSION["loginDevoloper"]="/*/*";
+          $_SESSION["passDevoloper"]="/*/*/*";  
+          echo'loading';
         }
         else echo"no!!";
     }

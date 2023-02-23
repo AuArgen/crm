@@ -25,7 +25,6 @@
 	<script src="http://cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
 		
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-		
 </head>
 
 <body>
@@ -59,45 +58,46 @@ require("./header.php");
 			<!-- <div id="content" class="span10"> -->
 			
 			<div class="row-fluid">	
-
-				<a class="quick-button metro yellow span2">
+				
+				<a href="we.php" class="quick-button metro yellow span2">
 					<i class="icon-group"></i>
 					<p>Жумушчулардын саны</p>
-					<span class="badge"><?php echo $usersKol;?></span>
+					<span class="badge "><?php echo $usersKol;?></span>
 				</a>
-				<a class="quick-button metro red span2">
+				<a href="orders.php" class="quick-button metro red span2">
 					<i class="icon-shopping-cart"></i>
 					<p>Жалпы заказдар</p>
-					<span class="badge"><?php echo $userOrders;?></span>
+					<span class="badge countOrders"></span>
 				</a>
-				<a class="quick-button metro blue span2">
+				<a href="orders.php" class="quick-button metro blue span2">
 					<i class="icon-shopping-cart"></i>
 					<p>Заказдар бүгүнкү</p>
-					<span class="badge"><?php echo $userOrder;?></span>
+					<span class="badge countThisOrders"></span>
 				</a>
-				<a class="quick-button metro green span2">
-					<i class="icon-barcode"></i>
+				<a href="./towar.php" class="quick-button metro green span2">
+					<i class="icon-pencil"></i>
 					<p>Товарлар</p>
 					<span class="badge"><?php echo $userProduct;?></span>
 
 				</a>
-				<a class="quick-button metro pink span2">
+				<a href="orders.php" class="quick-button metro pink span2">
 					<i class="icon-money"></i>
 					<p>Жалпы акча</p>
-					<span class="badge"><?php echo $allMoney;?></span>
+					<span class="badge summaOrders"></span>
 				</a>
-				<a class="quick-button metro black span2">
+				<a href="orders.php" class="quick-button metro black span2">
 					<i class="icon-money"></i>
 					<p>Бүгүнкү акча</p>
-					<span class="badge"><?php echo $thisMoney;?></span>
+					<span class="badge summaThisOrders"></span>
 
 				</a>
 				
 				<div class="clearfix"></div>
 								
 			</div><!--/row-->
-
+<br>
 			<div class="row-fluid sortable">
+
 				<div class="box span12">
 					<div class="box-header" data-original-title>
 						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Башкы</h2>
@@ -108,6 +108,26 @@ require("./header.php");
 						</div>
 					</div>
 					<div class="box-content">
+						<form action="">
+							<h3>Иргөө:</h3>
+							<div class=" container">
+								<div class="row-fluid">
+									<label class="span3 text-center" for="sortAllSumma">Жалпы акчасы менен
+										<input type="radio" name="sort" checked  id="sortAllSumma">
+									</label>
+									<label class="span3 text-center" for="sortThisSumma">Бүгүнкү акчасы менен
+										<input type="radio" name="sort" onclick="sortThisSumma()" id="sortThisSumma">
+									</label>
+									<label class="span3 text-center" for="sortAllCount">Жалпы заказы менен
+										<input type="radio" name="sort" onclick="sortAllCount()" id="sortAllCount">
+									</label>
+									<label class="span3 text-center" for="sortThisCount">Бүгүнкү заказы менен
+										<input type="radio" name="sort" onclick="sortThisCount()" id="sortThisCount">
+									</label>
+								</div>
+							</div>
+
+						</form>
 						<table class="table showUsers" style="font-size:12px;" border=1>
 							
 						</table>
@@ -160,8 +180,135 @@ require("./header.php");
 						echo '],';
 					}
 				?>];
-				let showArray = arrayUsers;
-				function showUsers() {
+				let arrayOrders = [<?php 
+					$n = sizeof($orderArray);
+					for ($i=0; $i < $n; $i++) {
+						$x = $orderArray[$i]; 
+						$xn = sizeof($x);
+						echo '[';
+						for ($j=0; $j < $xn; $j++) { 
+							echo '`'.$x[$j].'`,';
+						}
+						echo '],';
+					}
+				?>];
+				let yn = arrayUsers.length
+				let xn = arrayUsers[0].length
+				let summaOrders = 0
+				let summaThisOrders = 0
+				let countOrders = 0
+				let countThisOrders = 0
+				let thisDay = new Date();
+				let month = ""+(+thisDay.getMonth()+1)
+				if (month.length == 1) month = "0"+month
+				thisDay = thisDay.getFullYear()+"-"+month+"-"+thisDay.getDate()
+				// alert(thisDay)
+				for (let i = 0; i < yn; i++) {
+					for (let j = 0; j < arrayOrders.length; j++) {
+						if (arrayUsers[i][0] == arrayOrders[j][1]) {
+							arrayUsers[i][xn-2] = +arrayUsers[i][xn-2] + +arrayOrders[j][6]
+							arrayUsers[i][xn-1] = +arrayUsers[i][xn-1] + 1
+							summaOrders += +arrayOrders[j][6]
+							countOrders++;
+							if (arrayOrders[j][3].substr(0,10) == thisDay) {
+								summaThisOrders += +arrayOrders[j][6]
+								countThisOrders++;
+								arrayUsers[i][xn-4] = +arrayUsers[i][xn-4] + +arrayOrders[j][6]
+								arrayUsers[i][xn-3] = +arrayUsers[i][xn-3] + 1
+							}
+						}
+					}
+				}
+				document.querySelector(".summaOrders").innerHTML = summaOrders
+				document.querySelector(".summaThisOrders").innerHTML = summaThisOrders
+				document.querySelector(".countOrders").innerHTML = countOrders
+				document.querySelector(".countThisOrders").innerHTML = countThisOrders
+				document.querySelector("#sortAllSumma").onclick =  () => {
+					sortAllSumma()
+				}
+				document.querySelector("#sortThisSumma").onclick =  () => {
+					sortThisSumma()
+				}
+				document.querySelector("#sortAllCount").onclick =  () => {
+					sortAllCount()
+				}
+				document.querySelector("#sortThisCount").onclick =  () => {
+					sortThisCount()
+				}
+				function sortAllSumma() {
+					let showArray = arrayUsers;
+					let showN = showArray.length
+					let showY = showArray[0].length
+					for (let i = 0; i < showN; i++) {
+						for (let j = 0; j < showN; j++) {
+							if (+showArray[i][showY-2] > +showArray[j][showY-2]) {
+								for (let k = 0; k < showY; k++) {
+									const element = showArray[j][k];
+									showArray[j][k] = showArray[i][k]
+									showArray[i][k] = element
+								}
+								// console.log(1)
+							}
+						}
+					}
+					showUsers(showArray)
+				}
+				sortAllSumma()
+				function sortThisSumma() {
+					let showArray = arrayUsers;
+					let showN = showArray.length
+					let showY = showArray[0].length
+					for (let i = 0; i < showN; i++) {
+						for (let j = 0; j < showN; j++) {
+							if (+showArray[i][showY-4] > +showArray[j][showY-4]) {
+								for (let k = 0; k < showY; k++) {
+									const element = showArray[j][k];
+									showArray[j][k] = showArray[i][k]
+									showArray[i][k] = element
+								}
+								// console.log(1)
+							}
+						}
+					}
+					showUsers(showArray)
+				}
+				function sortAllCount() {
+					let showArray = arrayUsers;
+					let showN = showArray.length
+					let showY = showArray[0].length
+					for (let i = 0; i < showN; i++) {
+						for (let j = 0; j < showN; j++) {
+							if (+showArray[i][showY-1] > +showArray[j][showY-1]) {
+								for (let k = 0; k < showY; k++) {
+									const element = showArray[j][k];
+									showArray[j][k] = showArray[i][k]
+									showArray[i][k] = element
+								}
+								// console.log(1)
+							}
+						}
+					}
+					showUsers(showArray)
+				}
+				function sortThisCount() {
+					let showArray = arrayUsers;
+					let showN = showArray.length
+					let showY = showArray[0].length
+					for (let i = 0; i < showN; i++) {
+						for (let j = 0; j < showN; j++) {
+							if (+showArray[i][showY-3] > +showArray[j][showY-3]) {
+								for (let k = 0; k < showY; k++) {
+									const element = showArray[j][k];
+									showArray[j][k] = showArray[i][k]
+									showArray[i][k] = element
+								}
+								// console.log(1)
+							}
+						}
+					}
+					showUsers(showArray)
+				}
+				function showUsers(showArray) {
 					let d = `
 					<tr>
 								<th>#</th>
@@ -180,19 +327,35 @@ require("./header.php");
 							<tr>
 								<td>${i+1}</td>
 								<td>${showArray[i][1]}</td>
-								<td>${showArray[i][nn-2]}</td>
-								<td>${showArray[i][nn-1]}</td>
-								<td>${showArray[i][nn-4]}</td>
-								<td>${showArray[i][nn-3]}</td>
+								<td>${showArray[i][nn-2]}
+									<div class="raitingBlock" style="width:105%; background:red; height:5px; border-radius:10px;overflow:hidden; transition:5s;">
+										<div style="width:${(showArray[i][nn-2] ==0?0:showArray[i][nn-2]*100/summaOrders)}%; background:green; height:100%; transition:8s;"></div>
+									</div>
+								</td>
+								<td>${showArray[i][nn-1]}
+									<div style="width:105%; background:red; height:5px; border-radius:10px;overflow:hidden;">
+										<div style="width:${(showArray[i][nn-1] ==0?0:showArray[i][nn-1]*100/countOrders)}%; background:green; height:100%"></div>
+									</div>
+								</td>
+								<td>${showArray[i][nn-4]}
+									<div style="width:105%; background:red; height:5px; border-radius:10px;overflow:hidden;">
+										<div style="width:${(showArray[i][nn-4] ==0?0:showArray[i][nn-4]*100/summaThisOrders)}%; background:green; height:100%"></div>
+									</div>
+								</td>
+								<td>${showArray[i][nn-3]}
+									<div style="width:105%; background:red; height:5px; border-radius:10px;overflow:hidden;">
+										<div style="width:${(showArray[i][nn-3] ==0?0:showArray[i][nn-3]*100/countThisOrders)}%; background:green; height:100%"></div>
+									</div>
+								</td>
 								<td>${showArray[i][2].substr(0,10)} <br> ${showArray[i][2].substr(10,20)}</td>
 								<td>${showArray[i][3].substr(0,10)} <br> ${showArray[i][3].substr(10,20)}</td>
 							</tr>
 						`;
 					}
 					document.querySelector(".showUsers").innerHTML = d;
+					console.table(showArray);
 				}
-				showUsers();
-				console.table(arrayUsers);
+				// showUsers();
 
 // 				CKEDITOR.replace( 'editor1', {
 // 					filebrowserUploadUrl: "./upload.php"

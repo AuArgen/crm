@@ -10,145 +10,11 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>Админ панел <?php echo $_SESSION["name_office"];?></span></a>
+				<a class="brand" href="index.html"><span style="font-size:20px; font-weight:900">Админ панел: <?php echo $_SESSION["name_office"];?></span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
 					<ul class="nav pull-right">
-						<li class="dropdown hidden-phone">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-bell"></i>
-								<span class="badge red">
-								7 </span>
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li class="dropdown-menu-title">
- 									<span>У вас 11 новых сообшении</span>
-									<a href="#refresh"><i class="icon-repeat"></i></a>
-								</li>	
-                            	<li>
-                                    <a href="#">
-										<span class="icon blue"><i class="icon-user"></i></span>
-										<span class="message">Новая регистрация аккаунта</span>
-										<span class="time">1 мин</span> 
-                                    </a>
-                                </li>
-								<li>
-                                    <a href="#">
-										<span class="icon green"><i class="icon-comment-alt"></i></span>
-										<span class="message">Новый коментарии</span>
-										<span class="time">7 мин</span> 
-                                    </a>
-                                </li>
-								<li>
-                                    <a href="#">
-										<span class="icon blue"><i class="icon-user"></i></span>
-										<span class="message">Новая регистрация аккаунта</span>
-										<span class="time">вчера</span> 
-                                    </a>
-                                </li>
-                                <li class="dropdown-menu-sub-footer">
-                            		<a>Просмотреть все уведомления</a>
-								</li>	
-							</ul>
-						</li>
-						<!-- start: Notifications Dropdown -->
-						<li class="dropdown hidden-phone">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-calendar"></i>
-								<span class="badge red">
-								5 </span>
-							</a>
-							<ul class="dropdown-menu tasks">
-								<li class="dropdown-menu-title">
- 									<span>У вас есть 17 задач в работе</span>
-									<a href="#refresh"><i class="icon-repeat"></i></a>
-								</li>
-								<li>
-                                    <a href="#">
-										<span class="header">
-											<span class="title">iOS разработка</span>
-											<span class="percent"></span>
-										</span>
-                                        <div class="taskProgress progressSlim red">80</div> 
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-										<span class="header">
-											<span class="title">Android разработка</span>
-											<span class="percent"></span>
-										</span>
-                                        <div class="taskProgress progressSlim green">47</div> 
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-										<span class="header">
-											<span class="title">ARM разработка</span>
-											<span class="percent"></span>
-										</span>
-                                        <div class="taskProgress progressSlim yellow">32</div> 
-                                    </a>
-                                </li>
-								<li>
-                                    <a href="#">
-										<span class="header">
-											<span class="title">ARM разработка</span>
-											<span class="percent"></span>
-										</span>
-                                        <div class="taskProgress progressSlim greenLight">63</div> 
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-										<span class="header">
-											<span class="title">ARM разработка</span>
-											<span class="percent"></span>
-										</span>
-                                        <div class="taskProgress progressSlim orange">80</div> 
-                                    </a>
-                                </li>
-								<li>
-                            		<a class="dropdown-menu-sub-footer">Посмотреть все задачи</a>
-								</li>	
-							</ul>
-						</li>
-						<!-- end: Notifications Dropdown -->
-						<!-- start: Message Dropdown -->
-						<li class="dropdown hidden-phone">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-envelope"></i>
-								<span class="badge red">
-								4 </span>
-							</a>
-							<ul class="dropdown-menu messages">
-								<li class="dropdown-menu-title">
- 									<span>У вас 9 сообщений</span>
-									<a href="#refresh"><i class="icon-repeat"></i></a>
-								</li>	
-                            	<li>
-                                    <a href="#">
-										<span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
-										<span class="header">
-											<span class="from">
-										    	Dennis Ji
-										     </span>
-											<span class="time">
-										    	6 мин
-										    </span>
-										</span>
-                                        <span class="message">
-                                            Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                        </span>  
-                                    </a>
-                                </li>
-                        
-								<li>
-                            		<a class="dropdown-menu-sub-footer">Просмотреть все сообщения</a>
-								</li>	
-							</ul>
-						</li>
 						
 						<!-- start: User Dropdown -->
 						<li class="dropdown">
@@ -187,6 +53,7 @@
 						<!-- <li><a href="./contact.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Контакт</span></a></li> -->
 						<!-- <li><a href="tasks.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Задачи</span></a></li> -->
 						<li><a href="towar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Товар</span></a></li>
+						<li><a href="orders.php"><i class="icon-shopping-cart"></i><span class="hidden-tablet"> Заказдар</span></a></li>
 						<!-- <li><a href="seminar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Семинар</span></a></li> -->
 						<li><a href="admin.php"><i class="icon-edit"></i><span class="hidden-tablet"> Админ</span></a></li>
 						<!-- <li><a href="form second.php"><i class="icon-edit"></i><span class="hidden-tablet"> Формы2</span></a></li> -->

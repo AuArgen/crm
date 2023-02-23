@@ -307,7 +307,7 @@ if (isset($_POST["saveCreater"])) {
     $name_office = $_POST["name_office"];
     $name_office = mb_convert_case($name_office, MB_CASE_LOWER, "UTF-8");
     $e = "";
-    for ($i = 0; $i < strln($name_office) ; $i++) {
+    for ($i = 0; $i < strlen($name_office) ; $i++) {
       if ($name_office[$i] != " ") $e += $name_office[$i];
     }
     $name_office = $e;

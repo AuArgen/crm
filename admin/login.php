@@ -57,7 +57,9 @@
 	<!-- end: Favicon -->
 	
 			<style type="text/css">
-			body { background: url(img/bg-login.jpg) !important; }
+			body { background: url(img/bg-login.jpg);
+				background-size:cover;
+			}
 		</style>
 		
 		

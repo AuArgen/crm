@@ -9,6 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/8ec5b2c66c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <style type="text/css">
+			body { 
+				background: url(../admin/img/bg-login5.png);
+				/* background-size:cover; */
+			}
+		</style>
   </head>
   <body>
   <div class="buyProduct"></div>
@@ -51,7 +57,7 @@
   </div>
 
   <!-- start Work main -->
-    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && substr(date("Y-m-d H:i:s"),0,10) != substr($workEnd,0,10) ) echo"workStartNone"; ?>">
+    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && substr(date("Y-m-d H:i:s"),0,10) != substr($workEnd,0,10) || $workStart > $workEnd ) echo"workStartNone"; ?>">
       <button onclick="start('workStart')">Жумушту баштоо</button>
     </div>
   <!-- end Work main -->

@@ -2,7 +2,13 @@
 require("./ok.php");
 $imgs = array();
 $ca = 0;
-if ($_GET["developers"]) {
+if (isset($_GET["ordersId"])) {
+  $id = $_GET["ordersId"];
+  $r = $conn -> query("DELETE FROM orders WHERE id = '$id'");
+  header('Location: ' . $_SERVER["HTTP_REFERER"] );
+        exit;
+}
+else if ($_GET["developers"]) {
      $id = $_GET["developers"]; 
      $r = $conn -> query("select * from developers where id=$id and id_creater=$idCreater;");
      $ca = 0;
@@ -10,14 +16,6 @@ if ($_GET["developers"]) {
     $id = $_GET["product"]; 
     $r = $conn -> query("select * from product where id=$id and id_creater=$idCreater;");
     $ca = 1;
-}else if ($_GET["konferensia"]) {
-    $id = $_GET["konferensia"]; 
-    $r = $conn -> query("select * from konferensia where id=$id;");
-    $ca = 2;
-}else if ($_GET["teacher"]) {
-    $id = $_GET["teacher"]; 
-    $r = $conn -> query("select * from we where id=$id;");
-    $ca = 3;
 } else {
     echo'
     <script>
@@ -43,7 +41,8 @@ if (mysqli_num_rows($r)) {
     // echo $idCreater;
     // echo $id;
     $conn -> query("delete from $contentIdArrayGet where id=$id and id_creater=$idCreater");
-    header("Location:".$te[($ca)]."");
+    // header("Location:".$te[($ca)]."");
 }
-
+header('Location: ' . $_SERVER["HTTP_REFERER"] );
+        exit;
 ?>
