@@ -7,6 +7,11 @@ if (isset($_GET["ordersId"])) {
   $r = $conn -> query("DELETE FROM orders WHERE id = '$id'");
   header('Location: ' . $_SERVER["HTTP_REFERER"] );
         exit;
+}else if (isset($_GET["salaryId"])){
+  $id = $_GET["salaryId"];
+  $r = $conn -> query("DELETE FROM salary WHERE id = '$id'");
+  header('Location: ' . $_SERVER["HTTP_REFERER"] );
+        exit;
 }
 else if ($_GET["developers"]) {
      $id = $_GET["developers"]; 

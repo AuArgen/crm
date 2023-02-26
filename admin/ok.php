@@ -38,7 +38,7 @@
 	$r = $conn -> query("SELECT * FROM product WHERE id_creater = '$idCreater'");
 	$userProduct = mysqli_num_rows($r);
 	$orderArray = array();
-	$r = $conn -> query("SELECT * FROM orders WHERE id_creater = '$idCreater' and accepted > '0' and get_developer='-'  ORDER BY id_developers DESC");
+	$r = $conn -> query("SELECT * FROM orders WHERE id_creater = '$idCreater' and accepted > '0' and get_developer='-'  ORDER BY id_developers, date_order  DESC ");
 	$userOrders = mysqli_num_rows($r);
 	if ($userOrders) {
 		$row = mysqli_fetch_array($r);

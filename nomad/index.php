@@ -367,6 +367,7 @@
         input = (input <= 0? 1: input)
         x = +x
         trash[x][1] = input
+        trash[x][5] = +input
         trash[x][4] = input * (+trash[x][3])
         show()
       }
@@ -546,7 +547,9 @@
                     <input type="number" class="kolTable_${i}" value="${userDataKolX}" onchange="kolTable(${i})">
                   </td>
                   <td class="priceTable_${i}">${userData[i][3]}</td>
-                  <td class="manyTable_${i}">${userDataSummaX}</td>
+                  <td class="manyTable_${i}">
+                    <input type="number" name="" value="${userDataSummaX}" oninput="changeManyTable${i})" class="changeManyTable_${i}" id="">
+                  </td>
                   <td>
                     <input type="number" name="" value="${userData[i][5]}" onchange="matTable(${i})" class="matTable_${i}" id="">
                   </td>
@@ -591,9 +594,14 @@
             </div>
             `;
           }
+          function changeManyTable(x) {
+            x = +x;
+            userData[x][4] = document.querySelector(`.changeManyTable_${x}`).value;
+          }
           function kolTable(x) {
             x = +x;
             userData[x][1] = document.querySelector(`.kolTable_${x}`).value;
+            userData[x][5] = document.querySelector(`.kolTable_${x}`).value;
             addReportShow();
           }
           function nameUser() {
