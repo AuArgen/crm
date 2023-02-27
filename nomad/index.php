@@ -57,7 +57,7 @@
   </div>
 
   <!-- start Work main -->
-    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && substr(date("Y-m-d H:i:s"),0,10) != substr($workEnd,0,10) || $workStart > $workEnd ) echo"workStartNone"; ?>">
+    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10)) echo"workStartNone"; ?>">
       <button onclick="start('workStart')">Жумушту баштоо</button>
     </div>
   <!-- end Work main -->
@@ -472,8 +472,8 @@
         if (getNameClient==""){
           getNameClient = "Жаңы кардар";
         }
-        document.querySelector(".trashShowBlock").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40">`
         if (trash.length > 0) {
+          document.querySelector(".trashShowBlock").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40">`
           let trashx =  trash.join("@")+"@"
           $.ajax({
                   url:'./upload.php',
@@ -496,7 +496,7 @@
                     // document.querySelector(".workStart").classList.toggle("workStartNone");
                   }
               });
-            }
+            } 
       }
       function cart() {
         if (!document.querySelector(".trashNone") || document.querySelector(".cartActive")) document.querySelector(".trash").classList.toggle("trashNone");
@@ -614,49 +614,51 @@
           }
           function addReportSave(idReportSave) {
             // alert(id);
-            document.querySelector(".addReport").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
             let userDataN  = userData.length-1;
-            let userDataKol = 0;
-            let userDataSumma = 0;
-            let userDataName = userData[userDataN][0]
-            let userDataPhone = userData[userDataN][1]
-            let ans = "";
-            for (let i = 0; i < userDataN; i++) {
-              let userDataKolX = +userData[i][5];
-              let userDataKolN = +userData[i][1];
-              let userDataArtiulX = userData[i][0];
-              // alert(userDataKolX)
-              userDataKol += userDataKolN;
-              let userDataSummaX = (+userData[i][3]) * (+userData[i][1])
-              let userDataNameX = userData[i][2];
-              userDataSumma += userDataSummaX;
+            if (userDataN) {
+              document.querySelector(".addReport").innerHTML = `<img src="./img/loading-loading-forever.gif" alt="zagruzka..." width="40" height="40">`;
+              let userDataKol = 0;
+              let userDataSumma = 0;
+              let userDataName = userData[userDataN][0]
+              let userDataPhone = userData[userDataN][1]
+              let ans = "";
+              for (let i = 0; i < userDataN; i++) {
+                let userDataKolX = +userData[i][5];
+                let userDataKolN = +userData[i][1];
+                let userDataArtiulX = userData[i][0];
+                // alert(userDataKolX)
+                userDataKol += userDataKolN;
+                let userDataSummaX = (+userData[i][3]) * (+userData[i][1])
+                let userDataNameX = userData[i][2];
+                userDataSumma += userDataSummaX;
+                $.ajax({
+                    url:'./upload.php',
+                    type:'POST',
+                    cache:false,
+                    data:{userDataKolX,userDataKolN,userDataArtiulX},
+                    dataType:'html',
+                    success: function (data) {                    
+                      ans=ans;
+                    }
+                });
+                ans += `${userDataNameX}-[${userDataKolN}][${userDataKolX}],<br>`;
+              }
+              // console.log(ans)
+              let addReportTrash = ans;
               $.ajax({
-                  url:'./upload.php',
-                  type:'POST',
-                  cache:false,
-                  data:{userDataKolX,userDataKolN,userDataArtiulX},
-                  dataType:'html',
-                  success: function (data) {                    
-                    ans=ans;
-                  }
-              });
-              ans += `${userDataNameX}-[${userDataKolN}][${userDataKolX}],<br>`;
+                    url:'./upload.php',
+                    type:'POST',
+                    cache:false,
+                    data:{idReportSave, addReportTrash,userDataSumma,userDataKol,userDataName,userDataPhone},
+                    dataType:'html',
+                    success: function (data) {
+                      // addReportShow();
+                      document.querySelector(".fa-cart-shopping").innerHTML = `<span>${data}</span>`;
+                      addReportOC();
+                      cartShow()
+                    }
+                });
             }
-            // console.log(ans)
-            let addReportTrash = ans;
-            $.ajax({
-                  url:'./upload.php',
-                  type:'POST',
-                  cache:false,
-                  data:{idReportSave, addReportTrash,userDataSumma,userDataKol,userDataName,userDataPhone},
-                  dataType:'html',
-                  success: function (data) {
-                    // addReportShow();
-                    document.querySelector(".fa-cart-shopping").innerHTML = `<span>${data}</span>`;
-                    addReportOC();
-                    cartShow()
-                  }
-              });
           }
 
           function buyProductCO() {

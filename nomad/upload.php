@@ -42,15 +42,14 @@
       $r = $conn->query("INSERT INTO buyProducts(name_product, price_product, count_product, date_product,	all_price_product) VALUES('$tovarNameFor','$tovarPriceFor','$tovarCountFor',now(), '$tovarPriceAllFor')");
       $t = 0;
       if ($r) {
-          $r = $conn->query("SELECT * FROM product where id='$tovarIdFor' and id_create='$idCreater'");
-          if (mysqli_num_rows($r)) {
-            $row = mysqli_fetch_array($r);
+          $r2 = $conn->query("SELECT * FROM product where id='$tovarIdFor' and id_creater='$idCreater'");
+          if (mysqli_num_rows($r2)) {
+            $row = mysqli_fetch_array($r2);
             do {
-              $t = $row["count"]+0+$tovarCountFor;
-              
-            } while ($row = mysqli_fetch_array($r));
+              $t = $row["count"]+$tovarCountFor;
+              $e = $conn->query("UPDATE product SET count=$t WHERE id=$tovarIdFor");
+            } while ($row = mysqli_fetch_array($r2));
           }
-          $e = $conn->query("UPDATE product SET count=$t WHERE id=$tovarIdFor");
       }
     }
     if (isset($_POST["getBuyProduct"])) {
