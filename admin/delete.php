@@ -2,7 +2,13 @@
 require("./ok.php");
 $imgs = array();
 $ca = 0;
-if (isset($_GET["ordersId"])) {
+if (isset($_GET["buyId"])) {
+  $id = $_GET["buyId"];
+  $r = $conn -> query("DELETE FROM buyProducts WHERE id = '$id'");
+  header('Location: ' . $_SERVER["HTTP_REFERER"] );
+        exit;
+}
+else if (isset($_GET["ordersId"])) {
   $id = $_GET["ordersId"];
   $r = $conn -> query("DELETE FROM orders WHERE id = '$id'");
   header('Location: ' . $_SERVER["HTTP_REFERER"] );

@@ -54,6 +54,7 @@
 						<!-- <li><a href="tasks.php"><i class="icon-tasks"></i><span class="hidden-tablet"> Задачи</span></a></li> -->
 						<li><a href="towar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Товар</span></a></li>
 						<li><a href="orders.php"><i class="icon-shopping-cart"></i><span class="hidden-tablet"> Заказдар</span></a></li>
+						<li><a href="buyProducts.php"><i class="icon-shopping-cart"></i><span class="hidden-tablet"> Сатып алынган товарлар</span></a></li>
 						<li><a href="salary.php"><i class="icon-shopping-cart"></i><span class="hidden-tablet"> Айлыктар</span></a></li>
 						<!-- <li><a href="seminar.php"><i class="icon-edit"></i><span class="hidden-tablet"> Семинар</span></a></li> -->
 						<li><a href="admin.php"><i class="icon-edit"></i><span class="hidden-tablet"> Админ</span></a></li>

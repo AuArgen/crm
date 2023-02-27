@@ -757,13 +757,15 @@
             buyProductShow();
           }
           function saveTovar() {
+            let r = 0
             for (let i = 0; i < buyProductArray.length; i++) {
-              if (buyProductArray[i][2] == 1) {
+              if (+buyProductArray[i][2] == 1) {
                 let tovarNameFor = buyProductArray[i][1];
                 let tovarIdFor = buyProductArray[i][0];
                 let tovarCountFor = buyProductArray[i][3];
                 let tovarPriceFor = buyProductArray[i][4];
                 let tovarPriceAllFor = buyProductArray[i][5];
+                console.log(tovarNameFor,tovarIdFor,tovarCountFor,tovarPriceFor,tovarPriceAllFor,"34");
                 $.ajax({
                   url:'./upload.php',
                   type:'POST',
@@ -772,10 +774,12 @@
                   dataType:'html',
                   success: function (data) {
                     buyProductShow();
+                    r++;
                   }
               });
               }
             }
+            if (r == buyProductArray.length)
             buyProductArray = [];
             buyProductCO();
           }
