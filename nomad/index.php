@@ -57,7 +57,7 @@
   </div>
 
   <!-- start Work main -->
-    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10)) echo"workStartNone"; ?>">
+    <div class="workStart <?php if(substr(date("Y-m-d H:i:s"),0,10) == substr($workStart,0,10) && $workStart > $workEnd) echo"workStartNone"; ?>">
       <button onclick="start('workStart')">Жумушту баштоо</button>
     </div>
   <!-- end Work main -->

@@ -75,29 +75,30 @@ require("./header.php");
 						</div>
 					</div>
 					<div class="box-content">
-						<!-- <form action="">
+						<form action="">
 							<h3>Иргөө:</h3>
 							<div class=" container">
 								<div class="row-fluid">
-									<label class="span3 text-center" for="sortAllSumma">Жалпы акчасы менен
-										<input type="radio" name="sort" checked  id="sortAllSumma">
+									<label class="span5 text-center" for="date1">Ушул күндөн: 
+										<input type="date" name="sort" id="date1">
 									</label>
-									<label class="span3 text-center" for="sortThisSumma">Бүгүнкү акчасы менен
-										<input type="radio" name="sort" onclick="sortThisSumma()" id="sortThisSumma">
+									<label class="span5 text-center" for="date2">Ушул күнгө чейинки:
+										<input type="date" name="sort" id="date2">
 									</label>
-									<label class="span3 text-center" for="sortAllCount">Жалпы заказы менен
-										<input type="radio" name="sort" onclick="sortAllCount()" id="sortAllCount">
-									</label>
-									<label class="span3 text-center" for="sortThisCount">Бүгүнкү заказы менен
-										<input type="radio" name="sort" onclick="sortThisCount()" id="sortThisCount">
+									<label class="span2 text-center">
+										<button type="button" class="btn btn-success" onclick = "todoSort()">Иргөө</button>
 									</label>
 								</div>
 							</div>
 
-						</form> -->
-						<table class="table showUsers" style="font-size:12px;" border=1>
-							
-						</table>
+						</form>
+						<table class="table showDeveloper" style="font-size:12px;" border=1></table>
+						<h3>
+							<center>
+								Заказдары
+							</center>
+						</h3>
+						<table class="table showUsers" style="font-size:12px;" border=1></table>
 
 					</div>
 				</div><!--/span-->
@@ -110,26 +111,13 @@ require("./header.php");
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
 		
-	<div class="modal hide fade" id="myModal">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h3>Settings</h3>
-		</div>
-		<div class="modal-body">
-			<p>Here settings can be configured...</p>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
-			<a href="#" class="btn btn-primary">Save changes</a>
-		</div>
-	</div>
 	
 	<div class="clearfix"></div>
 	
 	<footer>
 
 		<p>
-			<span style="text-align:left;float:left">&copy; 2013 <a href="http://themifycloud.com/downloads/janux-free-responsive-admin-dashboard-template/" alt="Bootstrap_Metro_Dashboard">JANUX Responsive Dashboard</a></span>
+			<span style="text-align:left;float:left">&copy; 2023 <a href="http://github.com/itkyrgyz" alt="Bootstrap_Metro_Dashboard">ITKYRGYZ@gmail.com</a></span>
 			
 		</p>
 
@@ -192,6 +180,89 @@ require("./header.php");
 				// document.querySelector(".countOrders").innerHTML = countOrders
 				// document.querySelector(".countThisOrders").innerHTML = countThisOrders
 				
+				function todoSort() {
+					summaOrders = 0;
+					countOrders = 0
+					let showArray = arrayOrders
+					let date1 = document.querySelector("#date1").value 
+					let date2 = document.querySelector("#date2").value 
+					// alert(date1)
+					if (date1 && date2 && date1 <= date2) {
+						// console.table(showArray)
+						for (let j = 0; j < arrayUsers.length; j++) {
+							arrayUsers[j][xn-2] = 0
+							arrayUsers[j][xn-1] = 0
+						}
+						let d = `
+							<tr>
+										<th>#</th>
+										<th>Аты - жөнү</th>
+										<th>Жалпы акчасы </th>
+										<th>Жалпы Заказы</th>
+										<th>Жасаган</th>
+										<th>Аяктоо</th>
+										<td  style="width: 15px;"><a><button class="btn btn-danger"><i class="icon-trash"></i></button></a></td>
+									</tr>
+							`;
+							for (let i = 0; i < showArray.length && i < 1200; i++) {
+								let nn = showArray[0].length;
+								let y = showArray[i][3].substr(0,10)
+								if (y >= date1 && y <= date2 ) {
+									for (let j = 0; j < arrayUsers.length; j++) {
+										if (arrayUsers[j][0] == showArray[i][1]) {
+											arrayUsers[j][xn-2] = +arrayUsers[j][xn-2] + +showArray[i][6]
+											arrayUsers[j][xn-1] = +arrayUsers[j][xn-1] + 1
+											break;
+										}
+									}
+									// console.log(y,date1,date2, y >= date1, y <= date2)
+									d += `
+										<tr>
+											<td>${i+1}</td>
+											<td>${showArray[i][4]}</td>
+											<td>${showArray[i][6]}</td>
+											<td>${showArray[i][2]}</td>
+											<td>${showArray[i][7]}</td>
+											<td>${showArray[i][3]}</td>
+											<td  style="width: 15px;"><a href="delete.php?ordersId=${showArray[i][0]}"><button class="btn btn-danger"><i class="icon-trash"></i></button></a></td>
+										</tr>
+									`;
+
+								}
+							}
+							showDeveloper();
+							document.querySelector(".showUsers").innerHTML = d;	
+							// console.table(arrayUsers)
+					}
+				}
+
+				function showDeveloper() {
+					let d = `
+							<tr>
+										<th>#</th>
+										<th>Аты - жөнү</th>
+										<th>Жалпы акчасы </th>
+										<th>Жалпы Заказы</th>
+									</tr>
+							`;
+
+								for (let j = 0; j < arrayUsers.length; j++) {
+										
+									// console.log(y,date1,date2, y >= date1, y <= date2)
+									d += `
+										<tr>
+											<td>${j+1}</td>
+											<td>${arrayUsers[j][1]}</td>
+											<td>${arrayUsers[j][7]}</td>
+											<td>${arrayUsers[j][8]}</td>
+										</tr>
+									`;
+
+								}
+							
+							document.querySelector(".showDeveloper").innerHTML = d;	
+				}
+
 				showUsers(arrayOrders)
 				function showUsers(showArray) {
 					let d = `
@@ -220,7 +291,7 @@ require("./header.php");
 						`;
 					}
 					document.querySelector(".showUsers").innerHTML = d;
-					console.table(arrayOrders);
+					// console.table(arrayOrders);
 				}
 				// showUsers();
 

@@ -262,13 +262,13 @@ header .developer ul .img img {
     width:65%;
     display: flex;
     justify-content: flex-start;
-    padding: 20px;
+    padding: 15px;
     align-items: flex-start;
     height: 100%;
     overflow: auto;
     background-size: cover;
     border-right: 2px solid rgba(0, 0, 0, 0.315);
-    gap:4%;
+    gap:1%;
     background: rgb(131,58,180);
     /* background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); */
     background: rgba(0, 0, 0, 0.104);
@@ -279,11 +279,11 @@ header .developer ul .img img {
   }
 
 .main .left .block {
-    width: 30%;
+    width: 19%;
     border-radius:10px;
     border:5px solid rgba(0, 0, 0, 0.151);
     padding: 10px;
-    min-height: 270px;
+    min-height: 250px;
     background: white;
     cursor: pointer;
     transition: 0.3s;
